@@ -1,1 +1,28 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&display=swap");
+
+@theme inline {
+  --color-fg: var(--clr-black);
+  --color-bg: var(--clr-surface);
+  --color-gray-50: var(--clr-gray50);
+  --color-gray-20: var(--clr-gray20);
+  --text-dh2: var(--desk-h2);
+  --text-mh2: var(--mobile-h2);
+  --color-accent-hover: var(--clr-accent-20);
+  --font-bebas: var(--font-bebas);
+  --font-rethink: var(--font-rethink);
+}
+@layer base {
+  :root {
+    --clr-black: oklab(24.776% 0 -0.00003);
+    --clr-gray50: oklab(39.418% 0 -0.00004);
+    --clr-gray20: oklab(77.31099999999999% 0 -0.00009);
+    --clr-surface: oklab(98.72800000000001% 0.00287 -0.00614);
+    --desk-h2: 5rem;
+    --mobile-h2: 2.5rem;
+    --clr-accent-20: oklab(88.29% 0.03051 -0.05363);
+    --font-bebas: "Bebas Neue", sans-serif;
+    --font-rethink: "Rethink Sans", sans-serif;
+  }
+}
