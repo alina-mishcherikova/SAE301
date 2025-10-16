@@ -40,6 +40,8 @@ class ProductRepository extends EntityRepository {
         $p = new Product($answer->id);
         $p->setName($answer->name);
         $p->setIdcategory($answer->category);
+        $p->setPrice($answer->price);
+        $p->setImage($answer->image);
         return $p;
     }
 
@@ -53,6 +55,8 @@ class ProductRepository extends EntityRepository {
             $p = new Product($obj->id);
             $p->setName($obj->name);
             $p->setIdcategory($obj->category);
+            $p->setPrice($obj->price);
+            $p->setImage($obj->image);
             array_push($res, $p);
         }
        
