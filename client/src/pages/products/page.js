@@ -1,7 +1,5 @@
-// import { ProductData } from "../../data/product.js";
-// import { ProductView } from "../../ui/product/index.js";
-import { CardsData } from "../../data/cards.js";
-import { CardView } from "../../ui/card/index.js";
+import { ProductData } from "../../data/product.js";
+import { ProductView } from "../../ui/product/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import template from "./template.html?raw";
 
@@ -19,7 +17,7 @@ C.handler_clickOnProduct = function (ev) {
 };
 
 C.init = async function () {
-  M.products = await CardsData.fetchAll();
+  M.products = await ProductData.fetchAll();
   return V.init(M.products);
 };
 
@@ -36,7 +34,7 @@ V.createPageFragment = function (data) {
   let pageFragment = htmlToFragment(template);
 
   // Générer les produits
-  let productsDOM = CardView.dom(data);
+  let productsDOM = ProductView.dom(data);
 
   // Remplacer le slot par les produits
   pageFragment.querySelector('slot[name="products"]').replaceWith(productsDOM);
