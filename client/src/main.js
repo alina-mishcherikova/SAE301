@@ -13,10 +13,11 @@ const router = new Router("app");
 
 router.addLayout("/", RootLayout);
 
-// router.addRoute("/", HomePage);
+router.addRoute("/", HomePage);
 router.addRoute("/about", AboutPage);
 
-router.addRoute("/", ProductsPage);
+router.addRoute("/products", ProductsPage);
+router.addRoute("/products/category/:id", ProductsPage);
 router.addRoute("/products/:id/:slug", ProductDetailPage);
 
 router.addRoute("*", The404Page);

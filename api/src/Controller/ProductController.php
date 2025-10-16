@@ -46,4 +46,3 @@ class ProductController extends EntityController {
    
 }
 
-?>

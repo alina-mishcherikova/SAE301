@@ -3,8 +3,6 @@ import { htmlToFragment } from "../../lib/utils.js";
 import { HeaderView } from "../../ui/header/index.js";
 import { FooterView } from "../../ui/footer/index.js";
 
-
-
 /**
  * Construit et retourne le layout principal de l'application.
  *
@@ -20,10 +18,10 @@ import { FooterView } from "../../ui/footer/index.js";
  * - Retourne le fragment DOM finalisé.
  */
 export function RootLayout() {
-    let layout = htmlToFragment(template);
-    let header = HeaderView.dom();
-    let footer = FooterView.dom();
-    layout.querySelector('slot[name="header"]').replaceWith(header);
-    layout.querySelector('slot[name="footer"]').replaceWith(footer);
-    return layout;
+  let layout = htmlToFragment(template);
+  let header = HeaderView.dom();
+  let footer = FooterView.dom();
+  layout.querySelector('slot[name="header"]').replaceWith(header);
+  layout.querySelector('slot[name="footer"]').replaceWith(footer);
+  return layout;
 }
