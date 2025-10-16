@@ -63,28 +63,26 @@ class ProductRepository extends EntityRepository {
         return $res;
     }
 
-       public function parCategory($categoryId): array {
-    $requete = $this->cnx->prepare("
-        SELECT * 
-        FROM Product
-        WHERE category= :categoryId
-    ");
-$requete->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
-    $requete->execute();
-    $answer = $requete->fetchAll(PDO::FETCH_OBJ);
-    $res = [];
-    foreach($answer as $obj){
-        $p = new Product($obj->id);
-        $p->setName($obj->name);
-        $p->setIdcategory($obj->category);
-        $p->setPrice($obj->price);
-        $p->setImage($obj->image);
-        $res[] = $p;
-    }
-    return $res;
-}
+public function findAllByCategory($categoryId): array {
+        $requete = $this->cnx->prepare("select * from Product where category=:categoryId");
+        $requete->bindParam(':categoryId', $categoryId);
+        $requete->execute();
+        $answer = $requete->fetchAll(PDO::FETCH_OBJ);
 
-    public function save($product){
+        $res = [];
+ foreach($answer as $obj){
+            $p = new Product($obj->id);
+            $p->setName($obj->name);
+            $p->setIdcategory($obj->category);
+            $p->setPrice($obj->price);
+            $p->setImage($obj->image);
+            array_push($res, $p);
+        }
+       
+        return $res;
+    }
+
+public function save($product){
         $requete = $this->cnx->prepare("insert into Product (name, category) values (:name, :idcategory)");
         $name = $product->getName();
         $idcat = $product->getIdcategory();

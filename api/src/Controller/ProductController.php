@@ -16,11 +16,10 @@ class ProductController extends EntityController {
 
    
     protected function processGetRequest(HttpRequest $request) {
-        $id = $request->getId("id");
+        $id = $request->getId();
+        $cat= $request->getParam("category");
         if ($id){
-            // URI is .../products/{id}
-            $p = $this->products->find($id);
-            return $p==null ? false :  $p;
+            return $this->products->find($id);
         }
         else{
             // URI is .../products
