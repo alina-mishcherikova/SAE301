@@ -2,7 +2,7 @@
 
 ## Vue d'ensemble
 
-Cette application est une Single Page Application (SPA) construite avec une architecture modulaire et scalable. Elle repose sur trois concepts principaux :
+Cette application est une Single Page Application (SPA) construite avec une architecture modulaire et scalable. Elle repose sur trois concepts principaux 1:
 
 - **Layouts** : Structures de page réutilisables (header, footer, sidebar)
 - **Pages** : Composants de haut niveau représentant une route
