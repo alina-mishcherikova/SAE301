@@ -11,6 +11,8 @@
   </p>
   <section class="bg-bg flex flex-col xl:flex-row flex-1 gap-8">
     <slot name="categories"></slot>
-    <slot name="products"></slot>
+    <div data-products-host>
+      <slot name="products"></slot>
+    </div>
   </section>
 </div>

@@ -34,10 +34,11 @@ ProductData.fetchAll = async function () {
 };
 
 ProductData.parCategory = async function (categoryId) {
-  let data = await getRequest(`products?category=` + categoryId);
+  let data = await getRequest(`products?category=${categoryId}`);
   if (data === false) {
     return fakeProducts.filter((p) => p.category == categoryId);
   }
+  return data;
 };
 
 export { ProductData };
