@@ -6,7 +6,7 @@
     Se référer à la documentation pour comprendre comment l'utiliser\r
     </p>\r
    \r
-</div>`;function S(){return j}const R=`<div class="mx-auto max-w-4xl p-6">\r
+</div>`;function S(){return j}const q=`<div class="mx-auto max-w-4xl p-6">\r
   <h1 class="mb-6 text-4xl font-bold text-gray-900">Accueil</h1>\r
   \r
 <img \r
@@ -20,7 +20,7 @@
     Bienvenue sur notre plateforme de Click & Collect ! Découvrez une sélection variée de produits et profitez d'une expérience d'achat simple et rapide.\r
   </p>\r
 </div>\r
-`;function q(){return R}let M="http://mmi.unilim.fr/~mishcherikova1/api/",x=async function(t){let e={method:"GET"};try{var r=await fetch(M+t,e)}catch(o){return console.error("Echec de la requête : "+o),!1}return r.status!=200?(console.error("Erreur de requête : "+r.status),!1):await r.json()},d={},w=[{id:1,name:"Sabrina Carpenter - Man's Best Friend - Vinyle Luxe Packaging (Exclusivité)",price:"€59,99",category:1},{id:2,name:"Various Artist - Almost Famous - Double Vinyle Violet & Magenta Exclusif",price:"€34,99",category:1},{id:3,name:"KPop Demon Hunters (Soundtrack from the Netflix Film) - Vinyle Smokey Fushia Exclusif",price:"€29,99",category:1}];d.fetch=async function(t){let e=await x("products/"+t);return e==!1?w.pop():[e]};d.fetchAll=async function(){let t=await x("products");return t==!1?w:t};d.parCategory=async function(t){let e=await x(`products?category=${t}`);return e===!1?w.filter(r=>r.category==t):e};let C={},B=[{id:1,name:"Mobilier"},{id:2,name:"Électronique"},{id:3,name:"Bureautique"},{id:4,name:"Cuisine"},{id:5,name:"Extérieur"}];C.fetchAll=async function(){let t=await x("categories");return t==!1?B:t};let L=function(t,e){let r=t;for(let n in e)r=r.replaceAll(new RegExp("{{"+n+"}}","g"),e[n]);return r};function u(t){const e=document.createElement("template");return e.innerHTML=t.trim(),e.content}const $=`<a href="/products/{{id}}/{{name}}"\r
+`;function R(){return q}let M="http://mmi.unilim.fr/~mishcherikova1/api/",x=async function(t){let e={method:"GET"};try{var r=await fetch(M+t,e)}catch(o){return console.error("Echec de la requête : "+o),!1}return r.status!=200?(console.error("Erreur de requête : "+r.status),!1):await r.json()},u={},w=[{id:1,name:"Sabrina Carpenter - Man's Best Friend - Vinyle Luxe Packaging (Exclusivité)",price:"€59,99",category:1},{id:2,name:"Various Artist - Almost Famous - Double Vinyle Violet & Magenta Exclusif",price:"€34,99",category:1},{id:3,name:"KPop Demon Hunters (Soundtrack from the Netflix Film) - Vinyle Smokey Fushia Exclusif",price:"€29,99",category:1}];u.fetch=async function(t){let e=await x("products/"+t);return e==!1?w.pop():[e]};u.fetchAll=async function(){let t=await x("products");return t==!1?w:t};u.parCategory=async function(t){let e=await x(`products?category=${t}`);return e===!1?w.filter(r=>r.category==t):e};let b={},B=[{id:1,name:"Mobilier"},{id:2,name:"Électronique"},{id:3,name:"Bureautique"},{id:4,name:"Cuisine"},{id:5,name:"Extérieur"}];b.fetchAll=async function(){let t=await x("categories");return t==!1?B:t};let C=function(t,e){let r=t;for(let n in e)r=r.replaceAll(new RegExp("{{"+n+"}}","g"),e[n]);return r};function d(t){const e=document.createElement("template");return e.innerHTML=t.trim(),e.content}const $=`<a href="/products/{{id}}/{{name}}"\r
   ><div class="flex flex-col items-start rounded-lg w-full">\r
     <!-- Photo + border container -->\r
     <div\r
@@ -61,7 +61,7 @@
     </button>\r
   </div>\r
 </a>\r
-`;let y={html:function(t){const e=Array.isArray(t)?t:t&&typeof t=="object"?[t]:[];let r='<div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6">';for(let n of e)r+=L($,n);return r+"</div>"},dom:function(t){return u(y.html(t))}};const T=`<aside class="w-full xl:w-80 flex flex-col gap-4">\r
+`;let y={html:function(t){const e=Array.isArray(t)?t:t&&typeof t=="object"?[t]:[];let r='<div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6">';for(let n of e)r+=C($,n);return r+"</div>"},dom:function(t){return d(y.html(t))}};const T=`<aside class="w-full xl:w-80 flex flex-col gap-4">\r
   <div class="flex items-center justify-between">\r
     <h3 class="text-fg font-bebas text-xl tracking-wide uppercase">Filtre</h3>\r
   </div>\r
@@ -96,7 +96,7 @@
       ${e}
     </label>
   </div>
-`,H={dom(t,e={}){const r=u(T),n=r.querySelector("[data-category-list]"),o=Array.isArray(t)?t:[];let a="";for(let i=0;i<o.length;i++){const l=o[i];a+=F(l.id,l.name||l.label||`Cat ${l.id}`)}return n&&n.replaceChildren(u(a)),r}},O=`<div class="flex flex-col items-start self-stretch gap-4 md:gap-8 lg:gap-8">\r
+`,H={dom(t,e={}){const r=d(T),n=r.querySelector("[data-category-list]"),o=Array.isArray(t)?t:[];let a="";for(let i=0;i<o.length;i++){const l=o[i];a+=F(l.id,l.name||l.label||`Cat ${l.id}`)}return n&&n.replaceChildren(d(a)),r}},O=`<div class="flex flex-col items-start self-stretch gap-4 md:gap-8 lg:gap-8">\r
   <h1\r
     class="text-fg font-bebas tracking-tighter text-mh2 md:text-dh2 lg:text-dh2 uppercase leading-[95%]"\r
   >\r
@@ -117,7 +117,7 @@
     </div>\r
   </section>\r
 </div>\r
-`;let s={products:[],categories:[],selectedCategory:null};s.getCategoryById=function(t){return s.categories.find(e=>e.id==t)};let c={};c.handler_clickOnProduct=function(t){const e=t.target.closest("[data-buy]");e&&alert(`Le produit d'identifiant ${e.dataset.buy} ? Excellent choix !`)};c.updateProductsForCategory=async function(t,e,r){e?s.selectedCategory=e:s.selectedCategory=null,s.selectedCategory?(s.products=await d.parCategory(s.selectedCategory),r=s.products.length):(s.products=await d.fetchAll(),r=s.products.length);const n=t.querySelector("[data-products-host]");if(n){const a=y.dom(s.products);n.replaceChildren(a)}const o=t.querySelector("[data-nombre]");o&&(o.textContent=r)};c.onLabelClick=async function(t){const e=t.target.closest("label");if(!e)return;const r=t.currentTarget,n=e.getAttribute("for"),o=r.querySelector(`#${n}`);o&&await c.updateProductsForCategory(r,o.value)};c.onRenitialiseClick=async function(t){if(!t.target.closest("[data-reset-filters]"))return;const r=t.currentTarget;s.selectedCategory=null,s.products=await d.fetchAll();const n=r.querySelector("[data-products-host]");if(n){const a=y.dom(s.products);n.replaceChildren(a)}const o=r.querySelector("[data-nombre]");o&&(o.textContent=s.products.length)};c.init=async function(t){const e=t.id;if(s.selectedCategory=e,s.categories=await C.fetchAll(),s.selectedCategory?s.products=await d.parCategory(s.selectedCategory):s.products=await d.fetchAll(),e){const r=s.getCategoryById(e);console.log("Category loaded:",r)}return g.init(s.products,s.categories)};let g={};g.init=function(t,e){const r=g.createPageFragment(t,e);return g.attachEvents(r),r};g.createPageFragment=function(t,e){const r=u(O),n=H.dom(e),o=r.querySelector('slot[name="categories"]');o&&o.replaceWith(n);const a=y.dom(t),i=document.createElement("div");i.setAttribute("data-products-host",""),i.appendChild(a);const l=r.querySelector('slot[name="products"]');l&&l.replaceWith(i);const h=r.querySelector("[data-nombre]");return h&&(h.textContent=t.length),r};g.attachEvents=function(t){const e=t.firstElementChild;return e.addEventListener("click",c.handler_clickOnProduct),e.addEventListener("click",c.onLabelClick),e.addEventListener("click",c.onRenitialiseClick),t};function P(t){return console.log("ProductsPage params:",t),c.init(t)}const V=`<article class="mx-auto max-w-2xl rounded-lg bg-white p-8 shadow-lg">\r
+`;let s={products:[],categories:[],selectedCategory:null};s.getCategoryById=function(t){return s.categories.find(e=>e.id==t)};let c={};c.handler_clickOnProduct=function(t){const e=t.target.closest("[data-buy]");e&&alert(`Le produit d'identifiant ${e.dataset.buy} ? Excellent choix !`)};c.updateProductsForCategory=async function(t,e,r){e?s.selectedCategory=e:s.selectedCategory=null,s.selectedCategory?(s.products=await u.parCategory(s.selectedCategory),r=s.products.length):(s.products=await u.fetchAll(),r=s.products.length);const n=t.querySelector("[data-products-host]");if(n){const a=y.dom(s.products);n.replaceChildren(a)}const o=t.querySelector("[data-nombre]");o&&(o.textContent=r)};c.onLabelClick=async function(t){const e=t.target.closest("label");if(!e)return;const r=t.currentTarget,n=e.getAttribute("for"),o=r.querySelector(`#${n}`);o&&await c.updateProductsForCategory(r,o.value)};c.onRenitialiseClick=async function(t){if(!t.target.closest("[data-reset-filters]"))return;const r=t.currentTarget;s.selectedCategory=null,s.products=await u.fetchAll();const n=r.querySelector("[data-products-host]");if(n){const a=y.dom(s.products);n.replaceChildren(a)}const o=r.querySelector("[data-nombre]");o&&(o.textContent=s.products.length)};c.init=async function(t){const e=t.id;return s.selectedCategory=e,s.categories=await b.fetchAll(),s.selectedCategory?s.products=await u.parCategory(s.selectedCategory):s.products=await u.fetchAll(),e&&s.getCategoryById(e),p.init(s.products,s.categories)};let p={};p.init=function(t,e){const r=p.createPageFragment(t,e);return p.attachEvents(r),r};p.createPageFragment=function(t,e){const r=d(O),n=H.dom(e),o=r.querySelector('slot[name="categories"]');o&&o.replaceWith(n);const a=y.dom(t),i=document.createElement("div");i.setAttribute("data-products-host",""),i.appendChild(a);const l=r.querySelector('slot[name="products"]');l&&l.replaceWith(i);const h=r.querySelector("[data-nombre]");return h&&(h.textContent=t.length),r};p.attachEvents=function(t){const e=t.firstElementChild;return e.addEventListener("click",c.handler_clickOnProduct),e.addEventListener("click",c.onLabelClick),e.addEventListener("click",c.onRenitialiseClick),t};function L(t){return console.log("ProductsPage params:",t),c.init(t)}const D=`<article class="mx-auto max-w-2xl rounded-lg bg-white p-8 shadow-lg">\r
   <!-- Placeholder pour l'image du produit -->\r
   <div class="mb-6 flex h-64 items-center justify-center rounded-lg bg-gray-200">\r
     <svg class="h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r
@@ -140,18 +140,18 @@
     Ajouter au panier\r
   </button>\r
 </article>\r
-`;let A={html:function(t){return L(V,t)},dom:function(t){return u(A.html(t))}};const D=`<div>\r
+`;let P={html:function(t){return C(D,t)},dom:function(t){return d(P.html(t))}};const V=`<div>\r
 <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 2rem; color: #111; text-align: center;">Allez, click click ! On achète !</h1>\r
    <slot name="detail"></slot>\r
 </div>\r
-`;let m={products:[]};m.getProductById=function(t){return m.products.find(e=>e.id==t)};let v={};v.handler_clickOnProduct=function(t){t.target.dataset.buy!==void 0&&(t.target.dataset.buy,alert("Produit ajouté au panier ! (Quand il y en aura un)"))};v.init=async function(t){const e=t.id;m.products=await d.fetchAll();let r=m.getProductById(e);return console.log("Product loaded:",r),p.init(r)};let p={};p.init=function(t){let e=p.createPageFragment(t);return p.attachEvents(e),e};p.createPageFragment=function(t){let e=u(D),r=A.dom(t);return e.querySelector('slot[name="detail"]').replaceWith(r),e};p.attachEvents=function(t){return t.querySelector("[data-buy]").addEventListener("click",v.handler_clickOnProduct),t};function I(t){return console.log("ProductDetailPage",t),v.init(t)}const _=`<div style="min-height: 100vh; display: flex; flex-direction: column">\r
+`;let m={products:[]};m.getProductById=function(t){return m.products.find(e=>e.id==t)};let v={};v.handler_clickOnProduct=function(t){t.target.dataset.buy!==void 0&&(t.target.dataset.buy,alert("Produit ajouté au panier ! (Quand il y en aura un)"))};v.init=async function(t){const e=t.id;m.products=await u.fetchAll();let r=m.getProductById(e);return console.log("Product loaded:",r),g.init(r)};let g={};g.init=function(t){let e=g.createPageFragment(t);return g.attachEvents(e),e};g.createPageFragment=function(t){let e=d(V),r=P.dom(t);return e.querySelector('slot[name="detail"]').replaceWith(r),e};g.attachEvents=function(t){return t.querySelector("[data-buy]").addEventListener("click",v.handler_clickOnProduct),t};function I(t){return console.log("ProductDetailPage",t),v.init(t)}const _=`<div style="min-height: 100vh; display: flex; flex-direction: column">\r
   <slot name="header"></slot>\r
   <main class="bg-bg" style="flex: 1; padding: 2rem">\r
     <slot></slot>\r
   </main>\r
   <slot name="footer"></slot>\r
 </div>\r
-`,b=`<header\r
+`,N=`<header\r
   class="bg-white border-b border-gray-20 border-solid flex flex-col gap-2 items-center px-10 py-[.8rem] w-full"\r
 >\r
   <!-- Header top section -->\r
@@ -288,30 +288,16 @@
     >\r
       Tout les produits\r
     </a>\r
-    <a\r
-      href="/category/1"\r
-      data-link\r
-      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"\r
-    >\r
-      Vinyles\r
-    </a>\r
-    <a\r
-      href="/category/2"\r
-      data-link\r
-      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"\r
-    >\r
-      merchandising\r
-    </a>\r
-    <a\r
-      href="/category/3"\r
-      data-link\r
-      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"\r
-    >\r
-      Accessoires vinyle\r
-    </a>\r
   </nav>\r
 </header>\r
-`;let N={html:function(){return b},dom:function(){return u(b)}};const k=`<footer\r
+`,W=`
+    <a
+      href="/category/{{id}}"
+      data-link
+      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
+    >
+      {{name}}
+    </a>`;let A={html:function(t){let e=d(N),r=e.querySelector("nav");return!r||!Array.isArray(t)||t.forEach(n=>{let o=W.replace("{{id}}",n.id).replace("{{name}}",n.name),a=d(o);r.appendChild(a)}),e},dom:function(t,e=null){return A.html(t,e)}};const k=`<footer\r
   class="bg-white border-t border-white border-solid flex flex-col gap-3 items-center pb-10 pt-4 px-10 w-full"\r
 >\r
   <!-- Logo -->\r
@@ -382,10 +368,10 @@
     </a>\r
   </nav>\r
 </footer>\r
-`;let W={html:function(){return k},dom:function(){return u(k)}};function z(){let t=u(_),e=N.dom(),r=W.dom();return t.querySelector('slot[name="header"]').replaceWith(e),t.querySelector('slot[name="footer"]').replaceWith(r),t}const K=` <section>\r
+`;let z={html:function(){return k},dom:function(){return d(k)}};function K(){let t=d(_);const e=window.__categories||[];let r=A.dom(e),n=z.dom();return t.querySelector('slot[name="header"]').replaceWith(r),t.querySelector('slot[name="footer"]').replaceWith(n),t}const Y=` <section>\r
     <h1>404 - Page non trouvée</h1>\r
         <p>Cette page n'existe pas</p>\r
     <nav>\r
         <a href="/" data-link>Retour à l'accueil</a>\r
     </nav>\r
-</section>`;function Y(){return K}const f=new E("app");f.addLayout("/",z);f.addRoute("/",q);f.addRoute("/about",S);f.addRoute("/products",P);f.addRoute("/category/:id",P);f.addRoute("/products/:id/:slug",I);f.addRoute("*",Y);f.start();
+</section>`;function G(){return Y}window.__categories=await b.fetchAll();const f=new E("app");await f.addLayout("/",K);f.addRoute("/",R);f.addRoute("/about",S);f.addRoute("/products",L);f.addRoute("/category/:id",L);f.addRoute("/products/:id/:slug",I);f.addRoute("*",G);f.start();

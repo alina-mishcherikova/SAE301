@@ -17,6 +17,15 @@ class Product extends Entity {
     private ?int $idcategory = null; // id de la catégorie du produit (nullable)
     private ?float $price = null;
     private ?string $image = null;
+    private ?string $description = null;
+    private ?string $label = null;
+    private ?string $pays = null; 
+    private ?string $annee = null;
+    private ?string $genre = null;
+    private ?string $infosupp = null;
+    private ?string $limite = null;
+    private ?string $livraison = null;
+    private ?string $tracklist = null;
 
     public function __construct(int $id){
         $this->id = $id;
@@ -59,7 +68,16 @@ class Product extends Entity {
             "name" => $this->name,
             "category" => $this->idcategory,
             "price" => $this->price,
-            "image"=> $this -> image
+            "image"=> $this -> image,
+            "description" => $this->description,
+            "label"=>$this->label,
+            "pays"=>$this->pays,
+            "annee"=>$this->annee,
+            "genre"=>$this->genre,
+            "infosupp"=>$this->infosupp,
+            "limite"=>$this->limite,
+            "livraison"=>$this->livraison,
+            "tracklist"=>$this->tracklist
         ];
     }
 
@@ -124,7 +142,7 @@ class Product extends Entity {
      *
      * @return  self
      */ 
-    public function setPrice(string $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
         return $this;
@@ -148,5 +166,92 @@ class Product extends Entity {
         $this->image = $image;
         return $this;
     }
+        public function getDescription(): ?string
+    {
+        return $this->description;
+    }
 
+        /**
+     * Set the value of description
+     *
+     * @return  self
+     */ 
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+    public function setLabel(string $label): self
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+    public function setPays(string $pays): self
+    {
+        $this->pays = $pays;
+        return $this;
+    }
+    public function getAnnee(): ?string
+    {
+        return $this->annee;
+    }
+    public function setAnnee(string $annee): self
+    {
+        $this->annee = $annee;
+        return $this;
+    }
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+    public function setGenre(string $genre): self
+    {
+        $this->genre = $genre;
+        return $this;
+    }
+    public function getInfosupp(): ?string
+    {
+        return $this->infosupp;
+    }
+    public function setInfosupp(string $infosupp): self
+    {
+        $this->infosupp = $infosupp;
+        return $this;
+    }
+    public function getLimite(): ?string
+    {
+        return $this->limite;
+    }
+    public function setLimite(string $limite): self
+    {
+        $this->limite = $limite;
+        return $this;
+    }
+    public function getLivraison(): ?string
+    {
+        return $this->livraison;
+    }
+    public function setLivraison(string $livraison): self
+    {
+        $this->livraison = $livraison;
+        return $this;
+    }
+    public function getTracklist(): ?string
+    {
+        return $this->tracklist;
+    }
+    public function setTracklist(string $tracklist): self
+    {
+        $this->tracklist = $tracklist;
+        return $this;
+    }
 }

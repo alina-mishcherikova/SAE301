@@ -28,3 +28,13 @@
     --desk-index: 2.5rem;
   }
 }
+
+@layer components {
+  .product-detail-container {
+    @apply flex flex-col lg:flex-row gap-8 w-full max-w-[90rem] mx-auto;
+  }
+
+  .product-detail-image-wrapper {
+    @apply aspect-square w-full bg-gray-20 rounded-lg overflow-hidden border border-gray-20;
+  }
+}

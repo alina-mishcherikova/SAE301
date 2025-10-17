@@ -15,24 +15,54 @@ class ProductController extends EntityController {
     }
 
    
-    protected function processGetRequest(HttpRequest $request) {
-        $id = $request->getId();
-        $cat= $request->getParam
-        ("category");
-        if ($id){
-            return $this->products->find($id);
+
+protected function processGetRequest(HttpRequest $request) {
+    $id = $request->getId();
+    $cat = $request->getParam("category");
+    
+    if ($id) {
+        $product = $this->products->find($id);
+        
+        if (!$product) {
+            return null;
         }
-      
-        else{
-            // URI is .../products
-            $cat = $request->getParam("category"); // is there a category parameter in the request ?
-            if ( $cat == false) // no request category, return all products
-                return $this->products->findAll();
-            else // return only products of category $cat
-                return $this->products->findAllByCategory($cat);
+        
+        // Логування для дебагу
+        error_log("Product ID: " . $id);
+        error_log("Product category: " . $product->getIdcategory());
+        
+        if ($product->getIdcategory() == 1) {
+            error_log("Returning vinyl details");
+            $vinylDetails = $this->products->findVinylWithDetails($id);
+            $vinylDetails['gallery'] = $this->products->findGalleryImages($id);
+            return $vinylDetails;
+        }
+
+        error_log("Returning regular product");
+        // Конвертуємо Product об'єкт в масив
+        $productData = [
+            'id' => $product->getId(),
+            'name' => $product->getName(),
+            'price' => $product->getPrice(),
+            'image' => $product->getImage(),
+            'description' => $product->getDescription(),
+            'category' => $product->getIdcategory(),
+            'gallery' => $this->products->findGalleryImages($id)
+        ];
+        return $productData;
+    }
+    else {
+        $cat = $request->getParam("category");
+        if ($cat == false) {
+
+            return $this->products->findAll();
+        }
+        else {
+           
+            return $this->products->findAllByCategory($cat);
         }
     }
-
+}
     protected function processPostRequest(HttpRequest $request) {
         $json = $request->getJson();
         $obj = json_decode($json);
@@ -40,7 +70,16 @@ class ProductController extends EntityController {
         $p->setName($obj->name);
         $p->setIdcategory($obj->category);
         $p->setPrice($obj->price);
-         $p->setImage($obj->image);
+        $p->setImage($obj->image);
+        $p->setDescription($obj->description);
+        $p->setLabel($obj->label);
+        $p->setPays($obj->pays);
+        $p->setAnnee($obj->annee);
+        $p->setGenre($obj->genre);
+        $p->setInfosupp($obj->infosupp);
+        $p->setLimite($obj->limite);
+        $p->setLivraison($obj->livraison);
+        $p->setTracklist($obj->tracklist);
         $ok = $this->products->save($p); 
         return $ok ? $p : false;
     }

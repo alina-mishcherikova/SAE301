@@ -42,6 +42,7 @@ class ProductRepository extends EntityRepository {
         $p->setIdcategory($answer->category);
         $p->setPrice($answer->price);
         $p->setImage($answer->image);
+        $p->setDescription($answer->description);
         return $p;
     }
 
@@ -57,6 +58,7 @@ class ProductRepository extends EntityRepository {
             $p->setIdcategory($obj->category);
             $p->setPrice($obj->price);
             $p->setImage($obj->image);
+            $p->setDescription($obj->description);
             array_push($res, $p);
         }
        
@@ -76,6 +78,7 @@ public function findAllByCategory($categoryId): array {
             $p->setIdcategory($obj->category);
             $p->setPrice($obj->price);
             $p->setImage($obj->image);
+            $p->setDescription($obj->description);
             array_push($res, $p);
         }
        
@@ -98,6 +101,74 @@ public function save($product){
         }
           
         return false;
+    }
+
+        public function findVinylWithDetails($id) {
+        $requete = $this->cnx->prepare("
+            SELECT 
+                p.id AS product_id,
+                p.name,
+                p.price,
+                p.image,
+                p.category,
+                p.description,
+                v.interprete,
+                v.label,
+                v.pays,
+                v.annee,
+                v.genre,
+                v.infosupp,
+                v.limite,
+                v.livraison,
+                v.tracklist
+            FROM Product AS p
+            LEFT JOIN VinyleDetaille AS v ON p.id = v.id_product
+            WHERE p.id = :id
+        ");
+        $requete->bindParam(':id', $id);
+        $requete->execute();
+        $answer = $requete->fetch(PDO::FETCH_ASSOC);
+        
+        return $answer ? $answer : null;
+    }
+
+    public function findGalleryImages($productId) {
+        $requete = $this->cnx->prepare("
+            SELECT 
+                id_gallery AS image_id,
+                image,
+                id_product
+            FROM Gallery
+            WHERE id_product = :id
+        ");
+        $requete->bindParam(':id', $productId, PDO::PARAM_INT);
+        $requete->execute();
+        $result = $requete->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Логування
+        error_log("Gallery query for product $productId, rows found: " . count($result));
+        error_log("Gallery data: " . json_encode($result));
+        
+        return $result;
+    }
+
+    public function findInfoVinyle(): array {
+        $requete = $this->cnx->prepare("select * from Product");
+        $requete->execute();
+        $answer = $requete->fetchAll(PDO::FETCH_OBJ);
+
+        $res = [];
+        foreach($answer as $obj){
+            $p = new Product($obj->id);
+            $p->setName($obj->name);
+            $p->setIdcategory($obj->category);
+            $p->setPrice($obj->price);
+            $p->setImage($obj->image);
+            $p->setDescription($obj->description);
+            array_push($res, $p);
+        }
+       
+        return $res;
     }
 
     public function delete($id){
