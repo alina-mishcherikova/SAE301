@@ -9,6 +9,7 @@
   --color-gray-20: var(--clr-gray20);
   --text-dh2: var(--desk-h2);
   --text-mh2: var(--mobile-h2);
+  --text-dind: var(--desk-index);
   --color-accent-hover: var(--clr-accent-20);
   --font-bebas: var(--font-bebas);
   --font-rethink: var(--font-rethink);
@@ -24,5 +25,6 @@
     --clr-accent-20: oklab(88.29% 0.03051 -0.05363);
     --font-bebas: "Bebas Neue", sans-serif;
     --font-rethink: "Rethink Sans", sans-serif;
+    --desk-index: 2.5rem;
   }
 }

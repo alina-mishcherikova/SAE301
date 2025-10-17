@@ -17,10 +17,12 @@ class ProductController extends EntityController {
    
     protected function processGetRequest(HttpRequest $request) {
         $id = $request->getId();
-        $cat= $request->getParam("category");
+        $cat= $request->getParam
+        ("category");
         if ($id){
             return $this->products->find($id);
         }
+      
         else{
             // URI is .../products
             $cat = $request->getParam("category"); // is there a category parameter in the request ?

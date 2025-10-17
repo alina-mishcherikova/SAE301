@@ -1,4 +1,3 @@
-// client/src/pages/products/page.js
 import { ProductData } from "../../data/product.js";
 import { CategoryData } from "../../data/category.js";
 import { ProductView } from "../../ui/product/index.js";
@@ -6,137 +5,133 @@ import { CategoryView } from "../../ui/category/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import template from "./template.html?raw";
 
-// ===== Model =====
 let M = {
   products: [],
   categories: [],
-  selectedCategory: null, // number|null
+  selectedCategory: null,
 };
-
-// ===== Controller =====
+M.getCategoryById = function (id) {
+  return M.categories.find((category) => category.id == id);
+};
 let C = {};
 
-// Клік по кнопці "купити"
 C.handler_clickOnProduct = function (ev) {
   const buyBtn = ev.target.closest("[data-buy]");
   if (!buyBtn) return;
   alert(`Le produit d'identifiant ${buyBtn.dataset.buy} ? Excellent choix !`);
 };
 
-// Нормалізація відповіді у масив
-C.asArray = (data) =>
-  Array.isArray(data) ? data : data && typeof data === "object" ? [data] : [];
+C.updateProductsForCategory = async function (
+  root,
+  categoryId,
+  nomberOfProducts
+) {
+  if (categoryId) {
+    M.selectedCategory = categoryId;
+  } else {
+    M.selectedCategory = null;
+  }
 
-// Оновлення лише блоку товарів + оновлення URL
-C.updateProductsForCategory = async function (root, categoryId) {
-  // 1) нормалізуємо і запам’ятовуємо вибір
-  const id =
-    categoryId != null && categoryId !== "" ? parseInt(categoryId, 10) : null;
-  M.selectedCategory = Number.isFinite(id) ? id : null;
+  if (M.selectedCategory) {
+    M.products = await ProductData.parCategory(M.selectedCategory);
+    nomberOfProducts = M.products.length;
+  } else {
+    M.products = await ProductData.fetchAll();
+    nomberOfProducts = M.products.length;
+  }
 
-  // 2) тягнемо дані
-  M.products = M.selectedCategory
-    ? await ProductData.parCategory(M.selectedCategory)
-    : await ProductData.fetchAll();
-
-  M.products = C.asArray(M.products);
-
-  // 3) точково перемальовуємо список продуктів
   const host = root.querySelector("[data-products-host]");
   if (host) {
     const productsDOM = ProductView.dom(M.products);
     host.replaceChildren(productsDOM);
   }
 
-  // 4) підправляємо URL (щоб було /products?category=ID або /products)
-  const url = new URL(window.location.href);
-  if (M.selectedCategory)
-    url.searchParams.set("category", String(M.selectedCategory));
-  else url.searchParams.delete("category");
-  window.history.replaceState({}, "", `${url.pathname}${url.search}`);
+  const nombreElement = root.querySelector("[data-nombre]");
+  if (nombreElement) {
+    nombreElement.textContent = nomberOfProducts;
+  }
 };
 
-// Зміна radio (клік прямо на кружечок)
-C.onCategoryChange = async function (ev) {
-  const input = ev.target;
-  if (!input.matches("input[type='radio'][name='category']")) return;
-  const root = ev.currentTarget;
-  await C.updateProductsForCategory(root, input.value ?? null);
-};
-
-// Клік по label (працює по вкладених елементах)
 C.onLabelClick = async function (ev) {
-  const label = ev.target.closest("label[for], label[data-id]");
+  const label = ev.target.closest("label");
   if (!label) return;
 
   const root = ev.currentTarget;
-  let input = null;
 
-  if (label.hasAttribute("for")) {
-    input = root.querySelector(`#${CSS.escape(label.getAttribute("for"))}`);
-  } else if (label.dataset.id) {
-    input =
-      label.querySelector("input[name='category']") ||
-      root.querySelector(
-        `input[name='category'][value="${CSS.escape(label.dataset.id)}"]`
-      );
-  }
+  const inputId = label.getAttribute("for");
+  const input = root.querySelector(`#${inputId}`);
   if (!input) return;
-
-  if (!input.checked) input.checked = true;
-  await C.updateProductsForCategory(root, input.value ?? null);
+  await C.updateProductsForCategory(root, input.value);
 };
 
-// Початкове завантаження
-C.init = async function (startCategory = null) {
-  // якщо категорію не передали з роутера — читаємо з URL
-  let initial = startCategory;
-  if (initial == null) {
-    const params = new URLSearchParams(window.location.search);
-    const fromUrl = params.get("category");
-    initial = fromUrl != null && fromUrl !== "" ? parseInt(fromUrl, 10) : null;
+C.onRenitialiseClick = async function (ev) {
+  const btn = ev.target.closest("[data-reset-filters]");
+  if (!btn) return;
+
+  const root = ev.currentTarget;
+
+  M.selectedCategory = null;
+
+  M.products = await ProductData.fetchAll();
+  const host = root.querySelector("[data-products-host]");
+  if (host) {
+    const productsDOM = ProductView.dom(M.products);
+    host.replaceChildren(productsDOM);
   }
-  M.selectedCategory = Number.isFinite(initial) ? initial : null;
-
-  // дані довідників
-  M.categories = C.asArray(await CategoryData.fetchAll());
-
-  // продукти (фільтровано або всі)
-  M.products = M.selectedCategory
-    ? await ProductData.parCategory(M.selectedCategory)
-    : await ProductData.fetchAll();
-  M.products = C.asArray(M.products);
-
-  return V.init(M.products, M.categories, M.selectedCategory);
+  const nombreElement = root.querySelector("[data-nombre]");
+  if (nombreElement) {
+    nombreElement.textContent = M.products.length;
+  }
 };
 
-// ===== View =====
+C.init = async function (params) {
+  const categoryId = params.id;
+  M.selectedCategory = categoryId;
+
+  M.categories = await CategoryData.fetchAll();
+
+  if (M.selectedCategory) {
+    M.products = await ProductData.parCategory(M.selectedCategory);
+  } else {
+    M.products = await ProductData.fetchAll();
+  }
+  if (categoryId) {
+    const p = M.getCategoryById(categoryId);
+    console.log("Category loaded:", p);
+  }
+  return V.init(M.products, M.categories);
+};
+
 let V = {};
 
-V.init = function (products, categories, selectedCategory) {
-  const fragment = V.createPageFragment(products, categories, selectedCategory);
+V.init = function (products, categories) {
+  const fragment = V.createPageFragment(products, categories);
   V.attachEvents(fragment);
   return fragment;
 };
 
-V.createPageFragment = function (products, categories, selectedCategory) {
+V.createPageFragment = function (products, categories) {
   const pageFragment = htmlToFragment(template);
 
-  // Categories (передаємо selected для підсвітки peer-checked)
-  const categoriesDOM = CategoryView.dom(categories, {
-    selected: selectedCategory,
-  });
+  const categoriesDOM = CategoryView.dom(categories);
   const catSlot = pageFragment.querySelector('slot[name="categories"]');
-  if (catSlot) catSlot.replaceWith(categoriesDOM);
+  if (catSlot) {
+    catSlot.replaceWith(categoriesDOM);
+  }
 
-  // Products у контейнері data-products-host (для точкового оновлення)
   const productsDOM = ProductView.dom(products);
   const host = document.createElement("div");
   host.setAttribute("data-products-host", "");
   host.appendChild(productsDOM);
 
   const prodSlot = pageFragment.querySelector('slot[name="products"]');
-  if (prodSlot) prodSlot.replaceWith(host);
+  if (prodSlot) {
+    prodSlot.replaceWith(host);
+  }
+  const nombreElement = pageFragment.querySelector("[data-nombre]");
+  if (nombreElement) {
+    nombreElement.textContent = products.length;
+  }
 
   return pageFragment;
 };
@@ -145,15 +140,11 @@ V.attachEvents = function (pageFragment) {
   const root = pageFragment.firstElementChild;
   root.addEventListener("click", C.handler_clickOnProduct);
   root.addEventListener("click", C.onLabelClick);
-  root.addEventListener("change", C.onCategoryChange);
+  root.addEventListener("click", C.onRenitialiseClick);
   return pageFragment;
 };
 
-// ===== Entry =====
 export function ProductsPage(params) {
-  const startCategory =
-    params && typeof params === "object" && "category" in params
-      ? params.category
-      : null;
-  return C.init(startCategory);
+  console.log("ProductsPage params:", params);
+  return C.init(params);
 }

@@ -82,6 +82,7 @@ public function findAllByCategory($categoryId): array {
         return $res;
     }
 
+
 public function save($product){
         $requete = $this->cnx->prepare("insert into Product (name, category) values (:name, :idcategory)");
         $name = $product->getName();
