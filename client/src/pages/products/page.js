@@ -97,7 +97,6 @@ C.init = async function (params) {
   }
   if (categoryId) {
     const p = M.getCategoryById(categoryId);
-    console.log("Category loaded:", p);
   }
   return V.init(M.products, M.categories);
 };

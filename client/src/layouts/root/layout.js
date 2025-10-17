@@ -19,8 +19,12 @@ import { FooterView } from "../../ui/footer/index.js";
  */
 export function RootLayout() {
   let layout = htmlToFragment(template);
-  let header = HeaderView.dom();
+
+  const categories = window.__categories || [];
+
+  let header = HeaderView.dom(categories);
   let footer = FooterView.dom();
+
   layout.querySelector('slot[name="header"]').replaceWith(header);
   layout.querySelector('slot[name="footer"]').replaceWith(footer);
   return layout;

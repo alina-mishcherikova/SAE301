@@ -1,17 +1,40 @@
-import { htmlToFragment } from "../../lib/utils.js";
+import { genericRenderer, htmlToFragment } from "../../lib/utils.js";
 import template from "./template.html?raw";
 
-// HeaderView est un composant statique
-// on ne fait que charger le template HTML
-// en donnant la possibilité de l'avoir sous forme html ou bien de dom
+const menuTemplate = `
+    <a
+      href="/category/{{id}}"
+      data-link
+      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
+    >
+      {{name}}
+    </a>`;
+
 let HeaderView = {
-  html: function () {
-    return template;
+  html: function (categories) {
+    let fragment = htmlToFragment(template);
+    let navigation = fragment.querySelector("nav");
+
+    if (!navigation || !Array.isArray(categories)) {
+      return fragment;
+    }
+
+    categories.forEach((category) => {
+      let categoryLink = menuTemplate
+        .replace("{{id}}", category.id)
+        .replace("{{name}}", category.name);
+
+      let categoryFragment = htmlToFragment(categoryLink);
+
+      navigation.appendChild(categoryFragment);
+    });
+
+    return fragment;
   },
 
-  dom: function () {
-    return htmlToFragment(template);
-  }
+  dom: function (categories, selectedCategoryId = null) {
+    return HeaderView.html(categories, selectedCategoryId);
+  },
 };
 
 export { HeaderView };
