@@ -3,25 +3,27 @@ import template from "./template.html?raw";
 
 const menuTemplate = `
     <a
-      href="/category/{{id}}"
+      href="/products/category/{{name}}"
       data-link
-      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
     >
+    <button class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover focus:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink">
       {{name}}
+      </button>
     </a>`;
 
 let HeaderView = {
-  html: function (categories) {
+  html: function (categories = [], selectedCategoryId = null) {
     let fragment = htmlToFragment(template);
     let navigation = fragment.querySelector("nav");
 
-    if (!navigation || !Array.isArray(categories)) {
+    // guard: nothing to render
+    if (!navigation || !Array.isArray(categories) || categories.length === 0) {
       return fragment;
     }
 
     categories.forEach((category) => {
       let categoryLink = menuTemplate
-        .replace("{{id}}", category.id)
+        .replace("{{name}}", category.name)
         .replace("{{name}}", category.name);
 
       let categoryFragment = htmlToFragment(categoryLink);

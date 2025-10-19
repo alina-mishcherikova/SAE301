@@ -14,5 +14,10 @@ CategoryData.fetchAll = async function () {
   let data = await getRequest("categories");
   return data == false ? fakecategories : data;
 };
+CategoryData.nameOfCategory = function (id) {
+  const categories = window.__categories || fakecategories;
+  const category = categories.find((cat) => cat.id == id);
+  return category ? category.name : "Unknown";
+};
 
 export { CategoryData };

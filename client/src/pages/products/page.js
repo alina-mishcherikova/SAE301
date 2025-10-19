@@ -10,8 +10,10 @@ let M = {
   categories: [],
   selectedCategory: null,
 };
-M.getCategoryById = function (id) {
-  return M.categories.find((category) => category.id == id);
+M.getCategoryByName = function (name) {
+  return M.categories.find(
+    (category) => category.name.toLowerCase() === name.toLowerCase()
+  );
 };
 let C = {};
 
@@ -85,19 +87,28 @@ C.onRenitialiseClick = async function (ev) {
 };
 
 C.init = async function (params) {
-  const categoryId = params.id;
-  M.selectedCategory = categoryId;
+  // slug - це назва категорії з URL (наприклад "Rock", "Jazz")
+  const categorySlug = params.slug;
 
   M.categories = await CategoryData.fetchAll();
 
-  if (M.selectedCategory) {
-    M.products = await ProductData.parCategory(M.selectedCategory);
+  // Якщо є slug, знаходимо категорію за назвою
+  if (categorySlug) {
+    const category = M.getCategoryByName(categorySlug);
+    if (category) {
+      M.selectedCategory = category.id;
+      M.products = await ProductData.parCategory(category.id);
+    } else {
+      // Категорію не знайдено - показуємо всі продукти
+      M.selectedCategory = null;
+      M.products = await ProductData.fetchAll();
+    }
   } else {
+    // Немає slug - показуємо всі продукти
+    M.selectedCategory = null;
     M.products = await ProductData.fetchAll();
   }
-  if (categoryId) {
-    const p = M.getCategoryById(categoryId);
-  }
+
   return V.init(M.products, M.categories);
 };
 

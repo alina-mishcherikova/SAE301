@@ -1,4 +1,5 @@
 import { ProductData } from "../../data/product.js";
+import { CategoryData } from "../../data/category.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import { DetailView } from "../../ui/detail/index.js";
 import { DetailView as DetailVinyleView } from "../../ui/detailVinyle/index.js";
@@ -23,10 +24,12 @@ C.handler_clickOnProduct = function (ev) {
 
 C.init = async function (params) {
   const productId = params.id;
-
   const product = await ProductData.fetch(productId);
-  console.log("Product loaded:", product);
-  console.log("Gallery:", product?.gallery);
+
+  const categoryId = product?.category || product?.idcategory;
+  const categoryName = CategoryData.nameOfCategory(categoryId);
+  product.categoryName = categoryName;
+  console.log("Product with category:", product);
 
   return V.init(product);
 };
@@ -40,27 +43,20 @@ V.init = function (data) {
 };
 
 V.createPageFragment = function (data) {
-  // Créer le fragment depuis le template
   let pageFragment = htmlToFragment(template);
 
-  console.log("Product data in createPageFragment:", data);
-
-  // Choisir le composant selon la catégorie du produit
   let detailDOM;
   if (data && (data.category == 1 || data.interprete)) {
     detailDOM = DetailVinyleView.dom(data);
   } else {
     detailDOM = DetailView.dom(data);
   }
-
-  // Remplacer le slot par le composant detail
   pageFragment.querySelector('slot[name="detail"]').replaceWith(detailDOM);
 
   return pageFragment;
 };
 
 V.attachEvents = function (pageFragment) {
-  // Attacher un event listener au bouton
   const addToCartBtn = pageFragment.querySelector("[data-buy]");
   addToCartBtn.addEventListener("click", C.handler_clickOnProduct);
   return pageFragment;

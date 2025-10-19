@@ -21,8 +21,9 @@ export function RootLayout() {
   let layout = htmlToFragment(template);
 
   const categories = window.__categories || [];
+  const selectedCategoryId = null;
 
-  let header = HeaderView.dom(categories);
+  let header = HeaderView.dom(categories, selectedCategoryId);
   let footer = FooterView.dom();
 
   layout.querySelector('slot[name="header"]').replaceWith(header);
