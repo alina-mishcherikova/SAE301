@@ -27,7 +27,7 @@
     </div>
 
     <!-- Top buttons -->
-    <div class="flex gap-[.375rem] items-center">
+    <div data-header-buttons class="flex gap-[.375rem] items-center">
       <!-- Account button -->
       <button
         class="hidden sm:flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors"
@@ -56,7 +56,7 @@
       </button>
 
       <!-- Cart button -->
-      <button
+      <!-- <button
         class="flex items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
       >
         <svg
@@ -76,9 +76,10 @@
           <circle cx="8.33334" cy="16.6667" r="1.66667" fill="#212121" />
           <circle cx="15" cy="16.6667" r="1.66667" fill="#212121" />
         </svg>
-      </button>
+      </button> -->
       <!-- Burger button-->
       <button
+        id="#burgerMenu"
         class="flex sm:hidden items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
       >
         <svg
@@ -127,13 +128,18 @@
   </div>
 
   <!-- Menu navigation -->
-  <nav class="hidden sm:flex gap-4 items-start w-full">
-    <a
-      href="/products"
-      data-link
-      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
-    >
-      Tout les produits
-    </a>
-  </nav>
+  <ul
+    class="sm:flex gap-4 items-start w-full hidden lg:flex-row"
+    data-category-menu
+  >
+    <li>
+      <a
+        href="/products"
+        data-link
+        class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
+      >
+        Tout les produits
+      </a>
+    </li>
+  </ul>
 </header>

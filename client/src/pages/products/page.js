@@ -9,10 +9,23 @@ let M = {
   products: [],
   categories: [],
   selectedCategory: null,
+  categoryName: "Le catalogue de produits",
+  totalProducts: 0,
 };
+//filter products by category
+// M.filterProducts = function (categoryId) {
+//   if (categoryId === null || categoryId === undefined || categoryId === "all") {
+//     return M.Products;
+//   } else {
+//     return M.Products.filter((p) => p.category == categoryId);
+//   }
+// };
+
+//get category by id
 M.getCategoryById = function (id) {
   return M.categories.find((category) => category.id == id);
 };
+
 let C = {};
 
 C.handler_clickOnProduct = function (ev) {
@@ -21,37 +34,46 @@ C.handler_clickOnProduct = function (ev) {
   alert(`Le produit d'identifiant ${buyBtn.dataset.buy} ? Excellent choix !`);
 };
 
-C.updateProductsForCategory = async function (
-  root,
-  categoryId,
-  nomberOfProducts
-) {
+C.updateProductsForCategory = async function (root, categoryId) {
   if (categoryId) {
     M.selectedCategory = categoryId;
+    M.categoryName = CategoryData.findNameOfCategory(categoryId);
   } else {
     M.selectedCategory = null;
   }
-
   if (M.selectedCategory) {
     M.products = await ProductData.parCategory(M.selectedCategory);
-    nomberOfProducts = M.products.length;
   } else {
     M.products = await ProductData.fetchAll();
-    nomberOfProducts = M.products.length;
   }
+  M.totalProducts = M.products.length;
+
+  let category = null;
+
+  if (M.selectedCategory) {
+    for (const c of M.categories) {
+      if (String(c.id) === String(M.selectedCategory)) {
+        category = c;
+        break;
+      }
+    }
+  }
+  M.categoryName = category ? category.name : "Le catalogue de produits";
 
   const host = root.querySelector("[data-products-host]");
   if (host) {
     const productsDOM = ProductView.dom(M.products);
     host.replaceChildren(productsDOM);
-  }
 
-  const nombreElement = root.querySelector("[data-nombre]");
-  if (nombreElement) {
-    nombreElement.textContent = nomberOfProducts;
+    const nombreEl = root.querySelector("[data-nombre]");
+    if (nombreEl) nombreEl.textContent = M.products.length;
+
+    const categoryNameEl = root.querySelector("[data-category-name]");
+    if (categoryNameEl) {
+      categoryNameEl.textContent = M.categoryName;
+    }
   }
 };
-
 C.onLabelClick = async function (ev) {
   const label = ev.target.closest("label");
   if (!label) return;
@@ -64,28 +86,8 @@ C.onLabelClick = async function (ev) {
   await C.updateProductsForCategory(root, input.value);
 };
 
-C.onRenitialiseClick = async function (ev) {
-  const btn = ev.target.closest("[data-reset-filters]");
-  if (!btn) return;
-
-  const root = ev.currentTarget;
-
-  M.selectedCategory = null;
-
-  M.products = await ProductData.fetchAll();
-  const host = root.querySelector("[data-products-host]");
-  if (host) {
-    const productsDOM = ProductView.dom(M.products);
-    host.replaceChildren(productsDOM);
-  }
-  const nombreElement = root.querySelector("[data-nombre]");
-  if (nombreElement) {
-    nombreElement.textContent = M.products.length;
-  }
-};
-
 C.init = async function (params) {
-  const categoryId = params.id;
+  let categoryId = params.id;
   M.selectedCategory = categoryId;
 
   M.categories = await CategoryData.fetchAll();
@@ -95,39 +97,67 @@ C.init = async function (params) {
   } else {
     M.products = await ProductData.fetchAll();
   }
-  if (categoryId) {
-    const p = M.getCategoryById(categoryId);
+  M.totalProducts = M.products.length;
+
+  if (M.selectedCategory) {
+    const category = M.categories.find(
+      (c) => String(c.id) === String(M.selectedCategory)
+    );
+    M.categoryName = category ? category.name : "Le catalogue de produits";
+  } else {
+    M.categoryName = "Le catalogue de produits";
   }
-  return V.init(M.products, M.categories);
+
+  console.log("Category ID:", M.selectedCategory); // ← ПЕРЕВІРКА
+  console.log("Category name:", M.categoryName); // ← ПЕРЕВІРКА
+
+  return V.init(M.products, M.categories, M.selectedCategory, M.totalProducts);
 };
 
 let V = {};
 
-V.init = function (products, categories) {
-  const fragment = V.createPageFragment(products, categories);
+V.init = function (
+  products,
+  categories,
+  selectedCategoryId = null,
+  totalProducts
+) {
+  let fragment = V.createPageFragment(
+    products,
+    categories,
+    selectedCategoryId,
+    totalProducts
+  );
   V.attachEvents(fragment);
   return fragment;
 };
 
-V.createPageFragment = function (products, categories) {
-  const pageFragment = htmlToFragment(template);
+V.createPageFragment = function (
+  products,
+  categories,
+  selectedCategoryId,
+  totalProducts
+) {
+  let html = template.replaceAll("{{categoryName}}", M.categoryName);
+  console.log(M.categoryName);
+  let pageFragment = htmlToFragment(html);
 
-  const categoriesDOM = CategoryView.dom(categories);
-  const catSlot = pageFragment.querySelector('slot[name="categories"]');
+  let categoriesDOM = CategoryView.dom(categories);
+  let catSlot = pageFragment.querySelector('slot[name="categories"]');
   if (catSlot) {
     catSlot.replaceWith(categoriesDOM);
   }
 
-  const productsDOM = ProductView.dom(products);
-  const host = document.createElement("div");
+  let productsDOM = ProductView.dom(products);
+  let host = document.createElement("div");
   host.setAttribute("data-products-host", "");
   host.appendChild(productsDOM);
 
-  const prodSlot = pageFragment.querySelector('slot[name="products"]');
+  let prodSlot = pageFragment.querySelector('slot[name="products"]');
   if (prodSlot) {
     prodSlot.replaceWith(host);
   }
-  const nombreElement = pageFragment.querySelector("[data-nombre]");
+  let nombreElement = pageFragment.querySelector("[data-nombre]");
   if (nombreElement) {
     nombreElement.textContent = products.length;
   }
@@ -139,7 +169,6 @@ V.attachEvents = function (pageFragment) {
   const root = pageFragment.firstElementChild;
   root.addEventListener("click", C.handler_clickOnProduct);
   root.addEventListener("click", C.onLabelClick);
-  root.addEventListener("click", C.onRenitialiseClick);
   return pageFragment;
 };
 
