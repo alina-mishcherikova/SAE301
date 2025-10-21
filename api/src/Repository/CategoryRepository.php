@@ -41,8 +41,20 @@ class CategoryRepository extends EntityRepository {
             $c->setName($obj->name);
             array_push($res, $c);
         }
-        
         return $res;
+    }
+
+    public function findCategoryName($categoryId): string {
+
+        $requete = $this->cnx->prepare("SELECT name FROM Category where id=:categoryId");
+         $requete->bindParam(':categoryId', $categoryId);
+        $requete->execute();
+        $answer = $requete->fetch(PDO::FETCH_OBJ);
+        if ($answer && isset($answer->name)) {
+        return $answer->name;
+        }
+        return '';
+
     }
 
     public function save($category){

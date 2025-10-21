@@ -17,24 +17,20 @@ class CategoryController extends EntityController {
     }
 
     protected function processGetRequest(HttpRequest $request) {
-        $id = $request->getId("id");
+        $id = $request->getId();
         
         if ($id) {
             // GET /api/{strtolower(Category)}s/{id}
-            $c = $this->categories->find($id);
-            return $c == null ? false : $c;}
-        // } else {
-
-        //     $name = $request->getParam("name");
-        //  if ($name) {
-        //        return $this->categories->findAllByCategory($name);
-        //     }}
-            
+            $categoryName = $this->categories->findCategoryName($id);
+            if ($categoryName) {
+                return ['name' => $categoryName];
+            }
+            return null;
+        } else {
             return $this->categories->findAll();
         }
-    
+    }
 
-    
     protected function processPostRequest(HttpRequest $request) {
 
         $json = $request->getJson();

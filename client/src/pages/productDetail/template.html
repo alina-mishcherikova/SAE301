@@ -1,3 +1,7 @@
-<div class="flex flex-col items-start self-stretch gap-8 w-full">
-  <slot name="detail"></slot>
+<div>
+  <slot name="breadcrumb"></slot>
+  <section class="flex flex-col md:grid md:grid-cols-2 md:">
+    <slot name="gallery"></slot>
+    <slot name="detail"></slot>
+  </section>
 </div>

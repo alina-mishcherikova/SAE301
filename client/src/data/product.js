@@ -24,8 +24,8 @@ let fakeProducts = [
 ];
 
 ProductData.fetch = async function (id) {
-  let data = await getRequest(`products/${id}`);
-  return data == false ? fakeProducts.pop() : data;
+  let data = await getRequest("products/" + id);
+  return data == false ? data[0] : data;
 };
 
 ProductData.fetchAll = async function () {

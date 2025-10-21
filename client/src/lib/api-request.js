@@ -3,7 +3,7 @@
  *  C'est ici : https://fr.javascript.info/fetch
  */
 
-let API_URL = "http://mmi.unilim.fr/~mishcherikova1/api/";
+let API_URL = "https://mmi.unilim.fr/~mishcherikova1/api/";
 
 /**
  *  getRequest

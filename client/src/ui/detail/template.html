@@ -1,112 +1,76 @@
-<ul class="flex gap-2">
-  <li><a href="/products/{{category}}">{{category}}</a></li>
-  <li><p>></p></li>
-  <li>
-    <p>{{name}}</p>
-  </li>
-</ul>
 <article
-  class="flex flex-col md:flex-row lg:flex-row gap-6 md:gap-8 lg:gap-8 w-full max-w-[90rem] mx-auto"
+  class="flex flex-col lg:flex-row lg:gap-[2.5rem] w-full max-w-[90rem] mx-auto p-[1rem] gap-4"
 >
-  <a href="/products/{{categoryName}}">{{categoryName}}</a>
-  <div class="flex-1 min-w-0">
-    <!-- Gallery Images Only (3 images from Gallery table) -->
-    <div class="grid grid-cols-1 gap-4">
-      <!-- Main large image from gallery -->
-      <div
-        class="aspect-square w-full rounded-lg overflow-hidden border border-gray-20 border-solid"
-      >
-        {{mainGalleryImage}}
-      </div>
-      <section class="flex justify-between items-center self-stretch">
-        <button
-          data-gallery-prev
-          class="flex justify-center items-center gap-1 px-3.5 py-[14px] rounded-lg bg-accent-hover hover:bg-accent-hover-hover transition-colors"
-          aria-label="Previous image"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-          >
-            <g clip-path="url(#clip0_142_1035)">
-              <path
-                d="M12.5 5L7.5 10L12.5 15"
-                stroke="#212121"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_142_1035">
-                <rect width="20" height="20" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
-        </button>
-        <button
-          data-gallery-next
-          class="flex justify-center items-center gap-1 px-3.5 py-[14px] rounded-lg bg-accent-hover hover:bg-accent-hover-hover transition-colors"
-          aria-label="Next image"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-          >
-            <g clip-path="url(#clip0_142_1354)">
-              <path
-                d="M7.5 5L12.5 10L7.5 15"
-                stroke="#212121"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_142_1354">
-                <rect width="20" height="20" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
-        </button>
-      </section>
-
-      <!-- Thumbnail images from gallery (up to 3) -->
-      <div class="grid grid-cols-3 gap-2">{{galleryImages}}</div>
-    </div>
-  </div>
-
-  <div class="flex-1 flex flex-col gap-4 md:gap-6 lg:gap-6">
+  <div class="flex-1 flex flex-col gap-[1rem] lg:gap-[1.5rem]">
+    <!-- Product Title -->
     <h1
-      class="font-bebas text-fg text-mh2 md:text-dh2 lg:text-dh2 uppercase leading-[95%] tracking-tighter"
+      class="font-bebas text-fg text-mh2 lg:text-dh2 uppercase leading-[95%] tracking-tighter"
     >
       {{name}}
     </h1>
 
-    <div class="flex flex-col gap-3">
-      <p class="font-rethink text-gray-50 text-base leading-relaxed">
+    <!-- Description -->
+    <div class="flex flex-col gap-[0.75rem]">
+      <p class="font-rethink text-gray-50 text-[1rem] leading-relaxed">
         {{description}}
       </p>
     </div>
-
-    <div class="flex flex-col gap-4 mt-auto">
-      <div class="flex items-baseline gap-2">
-        <span
-          class="font-bebas text-fg text-[3rem] md:text-[3.5rem] lg:text-[3.5rem]"
-        >
+    <section id="infosupp" class="hidden flex-col">
+      <h3 class="font-bebas font-bold text-size22">Information principales</h3>
+      <ul class="w-full">
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4">Interprète / Groupe</span>
+            {{artist}}
+          </p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p><span class="font-bold w-[50%] pr-4">Label</span> {{label}}</p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4">Pays d'origine</span>
+            {{country}}
+          </p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4"
+              >Année de sortie / réédition</span
+            >
+            {{year}}
+          </p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p><span class="font-bold w-[50%] pr-4">Genre(s)</span> {{genre}}</p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4">État de l'édition</span>
+            {{etat}}
+          </p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4"
+              >Caractéristiques spéciales</span
+            >
+            {{special}}
+          </p>
+        </li>
+      </ul>
+    </section>
+    <!-- Price & Add to Cart -->
+    <div class="flex flex-col gap-[1rem] mt-auto">
+      <div class="flex items-baseline gap-[0.5rem]">
+        <span class="font-bebas text-fg text-[3rem] lg:text-[3.5rem]">
           €{{price}}
         </span>
       </div>
 
       <button
         data-buy="{{id}}"
-        class="w-full px-6 py-4 bg-fg text-bg font-rethink font-semibold text-sm md:text-base lg:text-base rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wide"
+        class="w-full px-[1.5rem] py-[1rem] bg-fg text-bg font-rethink font-semibold text-[0.875rem] lg:text-[1rem] rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wide"
       >
         Ajouter au panier
       </button>

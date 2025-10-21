@@ -17,15 +17,16 @@ class Product extends Entity {
     private ?int $idcategory = null; // id de la catégorie du produit (nullable)
     private ?float $price = null;
     private ?string $image = null;
-    private ?string $description = null;
+     private ?string $description = null;
+    private ?string $artist = null;
     private ?string $label = null;
-    private ?string $pays = null; 
-    private ?string $annee = null;
+    private ?string $country = null;
+    private ?int $year = null;
     private ?string $genre = null;
-    private ?string $infosupp = null;
-    private ?string $limite = null;
-    private ?string $livraison = null;
-    private ?string $tracklist = null;
+    private ?string $etat = null;
+    private ?string $special = null;
+
+    private ?array $gallery = [];
 
     public function __construct(int $id){
         $this->id = $id;
@@ -69,15 +70,15 @@ class Product extends Entity {
             "category" => $this->idcategory,
             "price" => $this->price,
             "image"=> $this -> image,
-            "description" => $this->description,
-            "label"=>$this->label,
-            "pays"=>$this->pays,
-            "annee"=>$this->annee,
-            "genre"=>$this->genre,
-            "infosupp"=>$this->infosupp,
-            "limite"=>$this->limite,
-            "livraison"=>$this->livraison,
-            "tracklist"=>$this->tracklist
+            "description"=> $this -> description,
+            "artist"=> $this -> artist,
+            "label"=> $this -> label,
+            "country"=> $this -> country,
+            "year" => $this -> year,
+            "genre" => $this -> genre,
+            "etat"=> $this -> etat,
+            "special"=> $this -> special,
+            "gallery"=> $this -> gallery
         ];
     }
 
@@ -94,7 +95,7 @@ class Product extends Entity {
      *
      * @return  self
      */ 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
         return $this;
@@ -113,7 +114,7 @@ class Product extends Entity {
      *
      * @return  self
      */ 
-    public function setIdcategory(int $idcategory): self
+    public function setIdcategory(?int $idcategory): self
     {
         $this->idcategory = $idcategory;
         return $this;
@@ -142,7 +143,7 @@ class Product extends Entity {
      *
      * @return  self
      */ 
-    public function setPrice(float $price): self
+    public function setPrice(?float $price): self
     {
         $this->price = $price;
         return $this;
@@ -161,7 +162,7 @@ class Product extends Entity {
      *
      * @return  self
      */ 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
         return $this;
@@ -171,87 +172,83 @@ class Product extends Entity {
         return $this->description;
     }
 
-        /**
-     * Set the value of description
-     *
-     * @return  self
-     */ 
-    public function setDescription(string $description): self
+        public function setDescription(?string $description): self
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function getArtist(): ?string
+    {
+        return $this->artist;
+    }
+    public function setArtist(?string $artist): self
+    {
+        $this->artist = $artist;
         return $this;
     }
     public function getLabel(): ?string
     {
         return $this->label;
     }
-    public function setLabel(string $label): self
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
         return $this;
     }
-
-    public function getPays(): ?string
+    public function getCountry(): ?string
     {
-        return $this->pays;
+        return $this->country;
     }
-    public function setPays(string $pays): self
+    public function setCountry(?string $country): self
     {
-        $this->pays = $pays;
+        $this->country = $country;
         return $this;
     }
-    public function getAnnee(): ?string
+    public function getYear(): ?int
     {
-        return $this->annee;
+        return $this->year;
     }
-    public function setAnnee(string $annee): self
+    public function setYear(?int $year): self
     {
-        $this->annee = $annee;
+        $this->year = $year;
         return $this;
     }
     public function getGenre(): ?string
     {
         return $this->genre;
     }
-    public function setGenre(string $genre): self
+    public function setGenre(?string $genre): self
     {
         $this->genre = $genre;
         return $this;
     }
-    public function getInfosupp(): ?string
+    public function getEtat(): ?string
     {
-        return $this->infosupp;
+        return $this->etat;
     }
-    public function setInfosupp(string $infosupp): self
+    public function setEtat(?string $etat): self
     {
-        $this->infosupp = $infosupp;
+        $this->etat = $etat;
         return $this;
     }
-    public function getLimite(): ?string
+    public function getSpecial(): ?string
     {
-        return $this->limite;
+        return $this->special;
     }
-    public function setLimite(string $limite): self
+    public function setSpecial(?string $special): self
     {
-        $this->limite = $limite;
+        $this->special = $special;
         return $this;
     }
-    public function getLivraison(): ?string
+    public function getGallery(): ?array
     {
-        return $this->livraison;
+        return $this->gallery;
     }
-    public function setLivraison(string $livraison): self
+    public function addGallery($image): self
     {
-        $this->livraison = $livraison;
+        $this-> gallery[] = $image;
         return $this;
     }
-    public function getTracklist(): ?string
-    {
-        return $this->tracklist;
-    }
-    public function setTracklist(string $tracklist): self
-    {
-        $this->tracklist = $tracklist;
-        return $this;
-    }
+
 }

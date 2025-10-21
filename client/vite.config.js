@@ -7,4 +7,13 @@ export default defineConfig({
   },
   plugins: [tailwindcss()],
   base: "/",
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost/SAE301",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

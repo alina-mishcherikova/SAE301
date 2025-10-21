@@ -1,41 +1,30 @@
 import { genericRenderer, htmlToFragment } from "../../lib/utils.js";
 import template from "./template.html?raw";
 
-const menuTemplate = `
-    <a
-      href="/products/category/{{name}}"
-      data-link
-    >
-    <button class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover focus:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink">
-      {{name}}
-      </button>
-    </a>`;
-
 let HeaderView = {
-  html: function (categories = [], selectedCategoryId = null) {
-    let fragment = htmlToFragment(template);
-    let navigation = fragment.querySelector("nav");
-
-    // guard: nothing to render
-    if (!navigation || !Array.isArray(categories) || categories.length === 0) {
-      return fragment;
-    }
-
-    categories.forEach((category) => {
-      let categoryLink = menuTemplate
-        .replace("{{name}}", category.name)
-        .replace("{{name}}", category.name);
-
-      let categoryFragment = htmlToFragment(categoryLink);
-
-      navigation.appendChild(categoryFragment);
-    });
-
-    return fragment;
+  html: function (data) {
+    return genericRenderer(template, data || {});
   },
 
-  dom: function (categories, selectedCategoryId = null) {
-    return HeaderView.html(categories, selectedCategoryId);
+  dom: function (data) {
+    const html = this.html(data);
+    const fragment = htmlToFragment(html);
+
+    const burgerBtn = fragment.querySelector("#\\#burgerMenu");
+    const navigation = fragment.querySelector("ul[data-category-menu]");
+
+    if (burgerBtn && navigation) {
+      burgerBtn.addEventListener("click", () => {
+        navigation.classList.toggle("hidden");
+        navigation.classList.toggle("flex");
+        navigation.classList.toggle("flex-col");
+        navigation.classList.toggle("gap-4");
+        navigation.classList.toggle("items-start");
+        navigation.classList.toggle("w-full");
+      });
+    }
+
+    return fragment;
   },
 };
 

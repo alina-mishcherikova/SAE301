@@ -6,18 +6,20 @@ let fakecategories = [
   { id: 1, name: "Mobilier" },
   { id: 2, name: "Électronique" },
   { id: 3, name: "Bureautique" },
-  { id: 4, name: "Cuisine" },
-  { id: 5, name: "Extérieur" },
 ];
 
 CategoryData.fetchAll = async function () {
   let data = await getRequest("categories");
-  return data == false ? fakecategories : data;
-};
-CategoryData.nameOfCategory = function (id) {
-  const categories = window.__categories || fakecategories;
-  const category = categories.find((cat) => cat.id == id);
-  return category ? category.name : "Unknown";
+  return data === false ? fakecategories : data;
 };
 
+CategoryData.findNameOfCategory = async function (categoryId) {
+  let data = await getRequest(`categories/${categoryId}`);
+  if (data === false || !data) {
+    const category = fakecategories.find((c) => c.id == categoryId);
+    return category ? category.name : null;
+  }
+
+  return data.name || null;
+};
 export { CategoryData };
