@@ -24,7 +24,6 @@ C.handler_form = async function (ev) {
     return;
   }
 
-  //Construction du corps de la requête à envoyer à l’API
   const data = {
     email: email,
     password: password,
@@ -33,24 +32,24 @@ C.handler_form = async function (ev) {
 
   try {
     const response = await UserData.login(data);
-    if (!response || response === false) {
-      alert("Erreur lors de la connexion. Vérifiez vos identifiants.");
+
+    if (!response || response.success === false) {
+      alert(
+        response.error ||
+          "Erreur lors de la connexion. Vérifiez vos identifiants."
+      );
       return;
     }
-    if (response.error) {
-      alert("Erreur: " + response.error);
+
+    console.log("Connexion réussie", response);
+
+    if (C.router) {
+      C.router.setAuth(true);
+      C.router.navigate("/profile");
     } else {
-      console.log("Connexion réussie", response);
+      console.error("Router is not available!");
 
-      localStorage.setItem("connectedUser", JSON.stringify(response));
-
-      // Mettre à jour l'état d'authentification du router
-      if (C.router) {
-        C.router.setAuth(true);
-        C.router.navigate("/profile");
-      } else {
-        console.error("Router is not available!");
-      }
+      window.location.href = "/profile";
     }
   } catch (error) {
     console.error("Erreur de connexion :", error);

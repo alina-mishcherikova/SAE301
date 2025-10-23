@@ -4,16 +4,23 @@ import { HomePage } from "./pages/home/page.js";
 import { ProductsPage } from "./pages/products/page.js";
 import { ProductDetailPage } from "./pages/productDetail/page.js";
 import { ConnectionPage } from "./pages/createAccount/page.js";
-import { LoginPage } from "./pages/logInUser/page.js";
+import { LoginPage } from "./pages/login/page.js";
 import { ProfilePage } from "./pages/profile/page.js";
 
 import { RootLayout } from "./layouts/root/layout.js";
 import { The404Page } from "./pages/404/page.js";
+import { UserData } from "./data/user.js";
 
 const router = new Router("app", { loginPath: "/login" });
 
-router.setAuth(true); // Utilisateur connecté
-router.setAuth(false); // Utilisateur non connecté
+async function updateAuthStatus() {
+  const result = await UserData.status();
+  if (result && result.authenticated) {
+    router.setAuth(true);
+  } else {
+    router.setAuth(false);
+  }
+}
 
 router.addLayout("/", RootLayout);
 
@@ -30,5 +37,9 @@ router.addRoute("/products/:id/:slug", ProductDetailPage);
 
 router.addRoute("*", The404Page);
 
-// Démarrer le routeur
-router.start();
+async function initApp() {
+  await updateAuthStatus();
+  router.start();
+}
+
+initApp();

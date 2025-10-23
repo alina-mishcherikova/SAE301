@@ -23,6 +23,7 @@ let API_URL = "https://mmi.unilim.fr/~mishcherikova1/api/";
 let getRequest = async function (uri) {
   let options = {
     method: "GET",
+    credentials: "include",
   };
 
   try {
@@ -56,7 +57,7 @@ let postRequest = async function (uri, data) {
   let options = {
     credentials: "include", // inclure les cookies dans la requête
     method: "POST",
-    header: {
+    headers: {
       "Content-Type": "miltipart/form-data",
     },
     body: JSON.stringify(data),
@@ -89,9 +90,24 @@ let postRequest = async function (uri, data) {
  *  La fonction retourne true ou false selon le succès de l'opération
  */
 let deleteRequest = async function (uri) {
-  // Pas implémenté. TODO if needed.
-};
+  let options = {
+    method: "DELETE",
+    credentials: "include",
+  };
 
+  try {
+    var response = await fetch(API_URL + uri, options);
+  } catch (e) {
+    console.error("Echec de la requête : " + e);
+    return false;
+  }
+  if (response.status != 200) {
+    console.error("Erreur de requête : " + response.status);
+    return false;
+  }
+  let $obj = await response.json();
+  return $obj;
+};
 /**
  *  patchRequest
  *
@@ -107,4 +123,4 @@ let patchRequest = async function (uri, data) {
   // Pas implémenté. TODO if needed.
 };
 
-export { getRequest, postRequest };
+export { getRequest, postRequest, deleteRequest };

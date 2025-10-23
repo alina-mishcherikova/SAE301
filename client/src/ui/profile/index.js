@@ -3,13 +3,18 @@ import template from "./template.html?raw";
 
 let ProfileView = {
   html: function (data) {
-    //console.log("ProfileView.html data:", data);
+    if (!data) {
+      console.warn("ProfileView: No data provided");
+      return template.replace(/{{firstName}}/g, "Utilisateur");
+    }
+
+    console.log("ProfileView rendering with data:", data);
+
     const result = genericRenderer(template, data);
     return result;
   },
 
   dom: function (data) {
-    //console.log("ProfileView.dom called with:", data);
     return htmlToFragment(ProfileView.html(data));
   },
 };

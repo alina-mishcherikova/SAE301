@@ -117,4 +117,52 @@ abstract class EntityController {
     protected function processPutRequest(HttpRequest $request){
         return ["warning" => "processPutRequest is not defined in " . static::class ];
     }
+
+    /**
+     * isAuthenticated
+     * 
+     * Vérifie si l'utilisateur actuel est authentifié via une session
+     * 
+     * @return bool true si l'utilisateur est authentifié, false sinon
+     */
+    protected function isAuthenticated(): bool {
+        // Démarre ou reprend la session existante
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Vérifie si l'utilisateur est marqué comme authentifié dans la session
+        return isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true;
+    }
+
+    /**
+     * requireAuthentication
+     * 
+     * Vérifie l'authentification et retourne une erreur 401 si non authentifié
+     * Utiliser cette méthode dans les contrôleurs qui nécessitent une authentification
+     * 
+     * @return array|null Retourne un tableau d'erreur si non authentifié, null si authentifié
+     */
+    protected function requireAuthentication(): ?array {
+        if (!$this->isAuthenticated()) {
+            http_response_code(401);
+            return ["error" => "Unauthorized", "message" => "Vous devez être connecté pour accéder à cette ressource"];
+        }
+        return null;
+    }
+
+    /**
+     * getCurrentUserId
+     * 
+     * Récupère l'ID de l'utilisateur actuellement connecté
+     * 
+     * @return int|null L'ID de l'utilisateur ou null si non connecté
+     */
+    protected function getCurrentUserId(): ?int {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        return $_SESSION['user_id'] ?? null;
+    }
 }

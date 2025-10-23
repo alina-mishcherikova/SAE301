@@ -26,7 +26,6 @@ C.handler_form = async function (ev) {
     return;
   }
 
-  //Construction du corps de la requête à envoyer à l’API
   const data = {
     email: email,
     password: password,
@@ -36,23 +35,36 @@ C.handler_form = async function (ev) {
   console.log("Données de connexion :", data);
 
   try {
-    const response = await UserData.connection(data);
+    const response = await UserData.register(data);
+
     if (!response || response === false) {
       alert("Erreur lors de la création du compte. Vérifiez la console.");
       return;
     }
+
     if (response.error) {
       alert("Erreur: " + response.error);
     } else {
       console.log("Compte créé avec succès !", response);
-      localStorage.setItem("connectedUser", JSON.stringify(response));
-      if (C.router) {
-        C.router.setAuth(true);
-        C.router.navigate("/profile");
+
+      const loginResponse = await UserData.login({ email, password });
+
+      if (loginResponse && loginResponse.success) {
+        console.log("Connexion automatique réussie");
+
+        if (C.router) {
+          C.router.setAuth(true);
+          C.router.navigate("/profile");
+        } else {
+          window.location.href = "/profile";
+        }
       } else {
-        console.warn(
-          "Router not available — account created but cannot navigate"
-        );
+        alert("Compte créé ! Veuillez vous connecter.");
+        if (C.router) {
+          C.router.navigate("/profile");
+        } else {
+          window.location.href = "/profile";
+        }
       }
     }
   } catch (error) {
