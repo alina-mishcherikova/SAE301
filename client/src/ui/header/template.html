@@ -1,6 +1,26 @@
 <header
   class="bg-white border-b border-gray-20 border-solid flex flex-col gap-2 items-center px-10 py-[.8rem] w-full"
 >
+  <style>
+    .burger-btn svg .line {
+      transform-box: fill-box;
+      transform-origin: 50% 50%;
+      transition:
+        transform 200ms ease,
+        opacity 200ms ease;
+    }
+    .burger-btn.open svg .line1 {
+      transform: translateY(4px) rotate(45deg);
+    }
+    .burger-btn.open svg .line2 {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .burger-btn.open svg .line3 {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  </style>
+
   <!-- Header top section -->
   <div class="flex items-center justify-between w-full">
     <!-- Logo -->
@@ -48,6 +68,7 @@
       <!-- Cart button -->
       <a href="/pannier" class="relative">
         <button
+          id="cartButton"
           class="flex items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
         >
           <svg
@@ -77,8 +98,8 @@
       </a>
       <!-- Burger button-->
       <button
-        id="#burgerMenu"
-        class="flex sm:hidden items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
+        id="burgerMenu"
+        class="burger-btn flex sm:hidden items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -87,8 +108,9 @@
           viewBox="0 0 20 20"
           fill="none"
         >
-          <g clip-path="url(#clip0_69_148)">
+          <g>
             <path
+              class="line line1"
               d="M3.33325 5H16.6666"
               stroke="#212121"
               stroke-width="2"
@@ -96,6 +118,7 @@
               stroke-linejoin="round"
             />
             <path
+              class="line line2"
               d="M3.33325 10H16.6666"
               stroke="#212121"
               stroke-width="2"
@@ -103,6 +126,7 @@
               stroke-linejoin="round"
             />
             <path
+              class="line line3"
               d="M3.33325 15H16.6666"
               stroke="#212121"
               stroke-width="2"
@@ -110,11 +134,6 @@
               stroke-linejoin="round"
             />
           </g>
-          <defs>
-            <clipPath id="clip0_69_148">
-              <rect width="20" height="20" fill="white" />
-            </clipPath>
-          </defs>
         </svg>
       </button>
     </div>

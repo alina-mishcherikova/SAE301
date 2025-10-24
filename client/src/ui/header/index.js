@@ -11,7 +11,7 @@ let HeaderView = {
     const html = this.html(data);
     const fragment = htmlToFragment(html);
 
-    const burgerBtn = fragment.querySelector("#\\#burgerMenu");
+    const burgerBtn = fragment.querySelector("#burgerMenu");
     const navigation = fragment.querySelector("ul[data-category-menu]");
 
     if (burgerBtn && navigation) {
@@ -22,6 +22,7 @@ let HeaderView = {
         navigation.classList.toggle("gap-4");
         navigation.classList.toggle("items-start");
         navigation.classList.toggle("w-full");
+        burgerBtn.classList.toggle("open");
       });
     }
 
