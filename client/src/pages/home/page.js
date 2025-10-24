@@ -74,25 +74,14 @@ V.createPageFragment = function (
   user = null,
   isAuthenticated = false
 ) {
-  // Підставляємо firstName в template
-  let html = template;
-
+  let greetingText = "Bienvenue sur notre boutique";
   if (isAuthenticated && user && user.firstName) {
-    html = genericRenderer(template, { firstName: user.firstName });
-  } else {
-    // Якщо не автентифікований, замінюємо placeholder на порожній рядок
-    html = template.replace(/\{\{firstName\}\}/g, "");
+    greetingText = `Bonjour ${user.firstName}`;
   }
+
+  const html = genericRenderer(template, { greeting: greetingText });
 
   let pageFragment = htmlToFragment(html);
-
-  // Приховуємо h1 якщо користувач не автентифікований
-  const h1 = pageFragment.querySelector("h1");
-  if (h1) {
-    if (!isAuthenticated) {
-      h1.classList.add("hidden");
-    }
-  }
 
   const sections = [
     { element: pageFragment.querySelector("[data-vinyles]"), categoryIndex: 0 },

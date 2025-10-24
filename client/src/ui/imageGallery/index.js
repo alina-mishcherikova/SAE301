@@ -19,7 +19,8 @@ let ImageGalleryView = {
           src="/images/${name}" 
           alt="Miniature ${idx + 1}" 
           class="w-full h-full object-cover aspect-square" 
-          loading="lazy" 
+          decoding="async"
+          fetchpriority="low"
         />
       </button>
     `;
@@ -61,7 +62,9 @@ let ImageGalleryView = {
             <img src="/images/${data[idx1]}" 
                  alt="Miniature ${idx1 + 1}"
                  class="w-full h-full object-cover aspect-square" 
-                 loading="lazy" />
+                 decoding="async"
+                 fetchpriority="low"
+                  />
           </button>
         `;
       }
@@ -74,7 +77,9 @@ let ImageGalleryView = {
             <img src="/images/${data[idx2]}" 
                  alt="Miniature ${idx2 + 1}"
                  class="w-full h-full object-cover aspect-square" 
-                 loading="lazy" />
+                 decoding="async"
+                 fetchpriority="low"
+                  />
           </button>
         `;
       }
