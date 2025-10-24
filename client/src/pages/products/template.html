@@ -2,12 +2,20 @@
   <h1
     class="text-fg font-bebas tracking-tighter text-mh2 md:text-dh2 lg:text-dh2 uppercase leading-[95%]"
   >
-    le catalogue de produits
+    {{categoryName}}
+    <span class="md:text-dind lg:text-dind align-top"
+      >(<span data-nombre>{{nombre}}</span>)</span
+    >
   </h1>
   <p class="font-rethink text-gray-50 w-full md:w-[40rem] lg:w-[40rem]">
     Faites le plein des pépites fraîchement ajoutées à notre catalogue :
     nouveautés en précommande et dernières (re)mises en vente, maintenant
-    disponibles ! 
+    disponibles !
   </p>
-  <slot name="products"></slot>
+  <section class="bg-bg flex flex-col xl:flex-row flex-1 gap-8">
+    <!-- <slot name="categories"></slot> -->
+    <div data-products-host>
+      <slot name="products"></slot>
+    </div>
+  </section>
 </div>

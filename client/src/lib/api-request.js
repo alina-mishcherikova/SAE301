@@ -3,7 +3,7 @@
  *  C'est ici : https://fr.javascript.info/fetch
  */
 
-let API_URL = "http://mmi.unilim.fr/~mishcherikova1/api/";
+let API_URL = "https://mmi.unilim.fr/~mishcherikova1/api/";
 
 /**
  *  getRequest
@@ -23,6 +23,7 @@ let API_URL = "http://mmi.unilim.fr/~mishcherikova1/api/";
 let getRequest = async function (uri) {
   let options = {
     method: "GET",
+    credentials: "include",
   };
 
   try {
@@ -56,10 +57,10 @@ let postRequest = async function (uri, data) {
   let options = {
     credentials: "include", // inclure les cookies dans la requête
     method: "POST",
-    header: {
-      Content_Type: "multipart/form-data", // type de données envoyées (nécessaire si upload fichier)
+    headers: {
+      "Content-Type": "miltipart/form-data",
     },
-    body: data,
+    body: JSON.stringify(data),
   };
 
   try {
@@ -68,8 +69,10 @@ let postRequest = async function (uri, data) {
     console.error("Echec de la requête : " + e); // affichage de l'erreur dans la console
     return false;
   }
-  if (response.status != 200) {
+  if (!response.ok) {
+    const errorText = await response.text();
     console.error("Erreur de requête : " + response.status); // affichage de l'erreur dans la console
+    console.error("Réponse du serveur:", errorText);
     return false; // si le serveur a renvoyé une erreur, on retourne false
   }
   let $obj = await response.json(); // extraction du json retourné par le serveur (opération asynchrone aussi)
@@ -87,9 +90,24 @@ let postRequest = async function (uri, data) {
  *  La fonction retourne true ou false selon le succès de l'opération
  */
 let deleteRequest = async function (uri) {
-  // Pas implémenté. TODO if needed.
-};
+  let options = {
+    method: "DELETE",
+    credentials: "include",
+  };
 
+  try {
+    var response = await fetch(API_URL + uri, options);
+  } catch (e) {
+    console.error("Echec de la requête : " + e);
+    return false;
+  }
+  if (response.status != 200) {
+    console.error("Erreur de requête : " + response.status);
+    return false;
+  }
+  let $obj = await response.json();
+  return $obj;
+};
 /**
  *  patchRequest
  *
@@ -102,7 +120,29 @@ let deleteRequest = async function (uri) {
  *  La fonction retourne true ou false selon le succès de l'opération
  */
 let patchRequest = async function (uri, data) {
-  // Pas implémenté. TODO if needed.
+  let options = {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    var response = await fetch(API_URL + uri, options);
+  } catch (e) {
+    console.error("Echec de la requête : " + e);
+    return false;
+  }
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Erreur de requête : " + response.status);
+    console.error("Réponse du serveur:", errorText);
+    return false;
+  }
+  let $obj = await response.json();
+  return $obj;
 };
 
-export { getRequest, postRequest };
+export { getRequest, postRequest, deleteRequest, patchRequest };

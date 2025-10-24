@@ -1,85 +1,105 @@
 <header
   class="bg-white border-b border-gray-20 border-solid flex flex-col gap-2 items-center px-10 py-[.8rem] w-full"
 >
+  <style>
+    .burger-btn svg .line {
+      transform-box: fill-box;
+      transform-origin: 50% 50%;
+      transition:
+        transform 200ms ease,
+        opacity 200ms ease;
+    }
+    .burger-btn.open svg .line1 {
+      transform: translateY(4px) rotate(45deg);
+    }
+    .burger-btn.open svg .line2 {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .burger-btn.open svg .line3 {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  </style>
+
   <!-- Header top section -->
   <div class="flex items-center justify-between w-full">
     <!-- Logo -->
     <div class="h-[2.375rem] relative flex-shrink-0">
       <a href="/" data-link class="block w-full h-full">
-        <svg
-          viewBox="0 0 94 38"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-full h-full"
-        >
-          <text
-            x="0"
-            y="28"
-            font-family="'Bebas Neue', sans-serif"
-            font-size="24"
-            font-weight="400"
-            fill="#212121"
-          >
-            VINYL COLLECTOR
-          </text>
-        </svg>
+        <img
+          src="../../../public/images/VC_LOGO_NOIR_1.webp"
+          alt="Vinyles collector logo"
+          class="w-full h-full object-contain"
+        />
       </a>
     </div>
 
     <!-- Top buttons -->
-    <div class="flex gap-[.375rem] items-center">
+    <div data-header-buttons class="flex gap-[.375rem] items-center">
       <!-- Account button -->
-      <button
-        class="hidden sm:flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors"
-      >
-        <svg
-          class="w-5 h-5"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      <a href="/profile"
+        ><button
+          data-login
+          class="sm:flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors"
         >
-          <circle
-            cx="10"
-            cy="6.66667"
-            r="3.33333"
-            stroke="#212121"
-            stroke-width="1.5"
+          <svg
+            class="w-5 h-5"
+            viewBox="0 0 20 20"
             fill="none"
-          />
-          <path
-            d="M5 15.8333C5 13.5322 6.84315 11.6667 9.16667 11.6667H10.8333C13.1569 11.6667 15 13.5322 15 15.8333V17.5H5V15.8333Z"
-            stroke="#212121"
-            stroke-width="1.5"
-            fill="none"
-          />
-        </svg>
-      </button>
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="10"
+              cy="6.66667"
+              r="3.33333"
+              stroke="#212121"
+              stroke-width="1.5"
+              fill="none"
+            />
+            <path
+              d="M5 15.8333C5 13.5322 6.84315 11.6667 9.16667 11.6667H10.8333C13.1569 11.6667 15 13.5322 15 15.8333V17.5H5V15.8333Z"
+              stroke="#212121"
+              stroke-width="1.5"
+              fill="none"
+            />
+          </svg></button
+      ></a>
 
       <!-- Cart button -->
-      <button
-        class="flex items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
-      >
-        <svg
-          class="w-5 h-5"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      <a href="/pannier" class="relative">
+        <button
+          id="cartButton"
+          class="flex items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
         >
-          <path
-            d="M3.33334 3.33334H5.00001L7.08334 13.3333H16.6667L18.3333 6.66667H6.66667"
-            stroke="#212121"
-            stroke-width="1.5"
+          <svg
+            class="w-5 h-5"
+            viewBox="0 0 20 20"
             fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <circle cx="8.33334" cy="16.6667" r="1.66667" fill="#212121" />
-          <circle cx="15" cy="16.6667" r="1.66667" fill="#212121" />
-        </svg>
-      </button>
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.33334 3.33334H5.00001L7.08334 13.3333H16.6667L18.3333 6.66667H6.66667"
+              stroke="#212121"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="8.33334" cy="16.6667" r="1.66667" fill="#212121" />
+            <circle cx="15" cy="16.6667" r="1.66667" fill="#212121" />
+          </svg>
+          <!-- Cart counter badge -->
+          <span
+            data-cart-count
+            class="absolute -top-1 -right-1 bg-fg text-bg text-xs font-rethink font-semibold rounded-full min-w-[1.25rem] h-5 items-center justify-center px-1"
+            style="display: none"
+          ></span>
+        </button>
+      </a>
       <!-- Burger button-->
       <button
-        class="flex sm:hidden items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
+        id="burgerMenu"
+        class="burger-btn flex sm:hidden items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -88,8 +108,9 @@
           viewBox="0 0 20 20"
           fill="none"
         >
-          <g clip-path="url(#clip0_69_148)">
+          <g>
             <path
+              class="line line1"
               d="M3.33325 5H16.6666"
               stroke="#212121"
               stroke-width="2"
@@ -97,6 +118,7 @@
               stroke-linejoin="round"
             />
             <path
+              class="line line2"
               d="M3.33325 10H16.6666"
               stroke="#212121"
               stroke-width="2"
@@ -104,6 +126,7 @@
               stroke-linejoin="round"
             />
             <path
+              class="line line3"
               d="M3.33325 15H16.6666"
               stroke="#212121"
               stroke-width="2"
@@ -111,11 +134,6 @@
               stroke-linejoin="round"
             />
           </g>
-          <defs>
-            <clipPath id="clip0_69_148">
-              <rect width="20" height="20" fill="white" />
-            </clipPath>
-          </defs>
         </svg>
       </button>
     </div>
@@ -127,39 +145,60 @@
   </div>
 
   <!-- Menu navigation -->
-  <nav class="hidden sm:flex gap-4 items-start w-full">
-    <a
-      href="/products"
-      data-link
-      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors"
+  <ul
+    class="sm:flex gap-4 items-start w-full hidden lg:flex-row"
+    data-category-menu
+  >
+    <li>
+      <a
+        href="/"
+        data-link
+        class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
+      >
+        Accueil
+      </a>
+    </li>
+    <li>
+      <a
+        href="/products"
+        data-link
+        class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
+      >
+        Tout les produits
+      </a>
+    </li>
+    <li
+      class="focus:outline-violet-500 active:bg-violet-700 active:border border-b-1-black"
     >
-      <p
-        class="font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
+      <a
+        href="/category/1/vinyles"
+        data-link
+        class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
       >
         Vinyles
-      </p>
-    </a>
-    <a
-      href="/accessories"
-      data-link
-      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors"
+      </a>
+    </li>
+    <li
+      class="focus:outline-violet-500 active:bg-violet-700 active:border border-b-1-black"
     >
-      <p
-        class="font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
+      <a
+        href="/category/2/merch"
+        data-link
+        class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
       >
-        Accessoires vinyle
-      </p>
-    </a>
-    <a
-      href="/merchandising"
-      data-link
-      class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors"
+        Merch
+      </a>
+    </li>
+    <li
+      class="focus:outline-violet-500 active:bg-violet-700 active:border border-b-1-black"
     >
-      <p
-        class="font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
+      <a
+        href="/category/3/accessoires"
+        data-link
+        class="flex gap-1 items-center justify-center p-3 rounded-lg hover:bg-accent-hover transition-colors font-normal leading-5 text-fg text-sm uppercase whitespace-nowrap text-rethink"
       >
-        merchandising
-      </p>
-    </a>
-  </nav>
+        Accessoires
+      </a>
+    </li>
+  </ul>
 </header>

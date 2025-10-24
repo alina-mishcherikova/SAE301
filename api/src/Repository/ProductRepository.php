@@ -38,10 +38,31 @@ class ProductRepository extends EntityRepository {
         if ($answer==false) return null; // may be false if the sql request failed (wrong $id value for example)
         
         $p = new Product($answer->id);
-        $p->setName($answer->name);
-        $p->setIdcategory($answer->category);
-        $p->setPrice($answer->price);
-        $p->setImage($answer->image);
+        $p->setName($answer->name ?? null);
+        $p->setIdcategory($answer->category ?? null);
+        $p->setPrice($answer->price ?? null);
+        $p->setImage($answer->image ?? null);
+        $p->setDescription($answer->description ?? null);
+        $p->setArtist($answer->artist ?? null);
+        $p->setLabel($answer->label ?? null);
+        $p->setCountry($answer->country ?? null);
+        $p->setYear($answer->year ?? null);
+        $p->setGenre($answer->genre ?? null);
+        $p->setEtat($answer->etat ?? null);
+        $p->setSpecial($answer->special ?? null);
+
+        $requete = $this->cnx->prepare("select image from Gallery where id_product=:value"); 
+        $id_product = $p->getId();
+        $requete->bindParam(':value',$id_product);
+        $requete->execute();
+        $answer = $requete->fetch(PDO::FETCH_OBJ);
+        while ($answer !=null){
+            $image = $answer->image;
+            $p->addGallery($image);
+            $answer = $requete->fetch(PDO::FETCH_OBJ);
+        }
+
+
         return $p;
     }
 
@@ -54,16 +75,64 @@ class ProductRepository extends EntityRepository {
         foreach($answer as $obj){
             $p = new Product($obj->id);
             $p->setName($obj->name);
-            $p->setIdcategory($obj->category);
-            $p->setPrice($obj->price);
+            $p->setIdcategory($obj->category );
+            $p->setPrice($obj->price );
             $p->setImage($obj->image);
+            $p->setDescription($obj->description );
+            $p->setArtist($obj->artist);
+            $p->setLabel($obj->label);
+            $p->setCountry($obj->country );
+            $p->setYear($obj->year);
+            $p->setGenre($obj->genre );
+            $p->setEtat($obj->etat);
+            $p->setSpecial($obj->special ?? null);
+
+            $requete = $this->cnx->prepare("select * from Gallery where id_product=:value"); 
+            $id_product = $p->getId();
+            $requete->bindParam(':value',$id_product); 
+            $requete->execute();
+            $answer = $requete->fetch(PDO::FETCH_OBJ);
+            while ($answer !=null){
+                $image = $answer->image;
+                $p->addGallery($image);
+                $answer = $requete->fetch(PDO::FETCH_OBJ);
+        }
+
             array_push($res, $p);
         }
        
         return $res;
     }
 
-    public function save($product){
+public function findAllByCategory($categoryId): array {
+        $requete = $this->cnx->prepare("select * from Product where category=:categoryId");
+        $requete->bindParam(':categoryId', $categoryId);
+        $requete->execute();
+        $answer = $requete->fetchAll(PDO::FETCH_OBJ);
+
+        $res = [];
+ foreach($answer as $obj){
+            $p = new Product($obj->id);
+            $p->setName($obj->name ?? null);
+            $p->setIdcategory($obj->category ?? null);
+            $p->setPrice($obj->price ?? null);
+            $p->setImage($obj->image ?? null);
+            $p->setDescription($obj->description ?? null);
+            $p->setArtist($obj->artist ?? null);
+            $p->setLabel($obj->label ?? null);
+            $p->setCountry($obj->country ?? null);
+            $p->setYear($obj->year ?? null);
+            $p->setGenre($obj->genre ?? null);
+            $p->setEtat($obj->etat ?? null);
+            $p->setSpecial($obj->special ?? null);
+            array_push($res, $p);
+        }
+       
+        return $res;
+    }
+
+
+public function save($product){
         $requete = $this->cnx->prepare("insert into Product (name, category) values (:name, :idcategory)");
         $name = $product->getName();
         $idcat = $product->getIdcategory();

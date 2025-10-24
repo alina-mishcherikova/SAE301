@@ -1,0 +1,120 @@
+<article
+  class="flex flex-col md:flex-row gap-4 md:gap-6 p-4 border-b border-gray-20 border-solid"
+>
+  <!-- Product Image -->
+  <div
+    class="flex-shrink-0 w-full md:w-[10rem] h-[10rem] border border-gray-20 border-solid rounded-lg overflow-hidden"
+  >
+    <img
+      src="../../../public/images/{{image}}"
+      alt="{{name}}"
+      class="w-full h-full object-cover"
+    />
+  </div>
+
+  <!-- Product Info -->
+  <div class="flex flex-col flex-grow gap-3">
+    <!-- Title and Remove Button -->
+    <div class="flex justify-between items-start gap-4">
+      <h3
+        class="font-rethink font-semibold text-fg text-base md:text-lg leading-6"
+      >
+        {{name}}
+      </h3>
+      <button
+        data-remove="{{productId}}"
+        class="flex-shrink-0 p-2 hover:bg-accent-hover rounded-lg transition-colors"
+        aria-label="Supprimer du panier"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M15 5L5 15M5 5L15 15"
+            stroke="#212121"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Price and Quantity Controls -->
+    <div
+      class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+    >
+      <!-- Price per unit -->
+      <p class="font-rethink font-bold text-fg text-base tracking-[0.16px]">
+        €{{price}}
+      </p>
+
+      <!-- Quantity Controls -->
+      <div class="flex items-center gap-3">
+        <button
+          data-decrease="{{productId}}"
+          class="flex items-center justify-center w-8 h-8 border border-gray-20 border-solid rounded-lg hover:bg-accent-hover transition-colors"
+          aria-label="Diminuer la quantité"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path
+              d="M3.33334 8H12.6667"
+              stroke="#212121"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <input
+          type="number"
+          data-quantity="{{productId}}"
+          value="{{qty}}"
+          min="1"
+          max="99"
+          class="w-14 h-8 text-center border border-gray-20 border-solid rounded-lg font-rethink text-fg text-sm focus:outline-none focus:border-fg"
+        />
+
+        <button
+          data-increase="{{productId}}"
+          class="flex items-center justify-center w-8 h-8 border border-gray-20 border-solid rounded-lg hover:bg-accent-hover transition-colors"
+          aria-label="Augmenter la quantité"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path
+              d="M8 3.33334V12.6667M3.33334 8H12.6667"
+              stroke="#212121"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Subtotal -->
+      <p
+        class="font-rethink font-bold text-fg text-base md:text-lg tracking-[0.16px]"
+      >
+        €{{subtotal}}
+      </p>
+    </div>
+  </div>
+</article>

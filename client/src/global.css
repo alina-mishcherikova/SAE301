@@ -9,9 +9,14 @@
   --color-gray-20: var(--clr-gray20);
   --text-dh2: var(--desk-h2);
   --text-mh2: var(--mobile-h2);
+  --text-dh3: var(--desk-h3);
+  --text-mh3: var(--mobile-h3);
+  --text-dind: var(--desk-index);
   --color-accent-hover: var(--clr-accent-20);
   --font-bebas: var(--font-bebas);
   --font-rethink: var(--font-rethink);
+  --text-size22: var(--font-size22);
+  --text-size16: var(--font-size16);
 }
 @layer base {
   :root {
@@ -21,8 +26,13 @@
     --clr-surface: oklab(98.72800000000001% 0.00287 -0.00614);
     --desk-h2: 5rem;
     --mobile-h2: 2.5rem;
+    --desk-h3: 3.5rem;
+    --mobile-h3: 1.5rem;
     --clr-accent-20: oklab(88.29% 0.03051 -0.05363);
     --font-bebas: "Bebas Neue", sans-serif;
     --font-rethink: "Rethink Sans", sans-serif;
+    --desk-index: 2.5rem;
+    --font-size22: 1.375rem;
+    --font-size16: 1rem;
   }
 }

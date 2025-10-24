@@ -1,0 +1,64 @@
+<div class="flex-1 min-w-0">
+  <div class="flex flex-col gap-[1rem]">
+    <div class="relative w-full" data-gallery-container>
+      <img
+        data-main-image
+        src="../../../public/images/{{mainImage}}"
+        alt="Product image"
+        decoding="async"
+        fetchpriority="high"
+        class="w-full aspect-square object-cover rounded-lg border border-gray-20 lg:max-w-[41rem]"
+      />
+    </div>
+    <div class="grid grid-cols-2 gap-2" data-thumbs>{{thumbs}}</div>
+    <div class="flex justify-between items-center pt-4 pb-4">
+      <button
+        data-gallery-prev
+        class="flex justify-center items-center gap-[0.25rem] px-[0.875rem] py-[0.875rem] rounded-lg bg-accent-hover hover:opacity-80 transition-opacity"
+        aria-label="Previous image"
+        type="button"
+      >
+        <!-- left icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1.25rem"
+          height="1.25rem"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M12.5 5L7.5 10L12.5 15"
+            stroke="#212121"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+
+      <button
+        data-gallery-next
+        class="flex justify-center items-center gap-[0.25rem] px-[0.875rem] py-[0.875rem] rounded-lg bg-accent-hover hover:opacity-80 transition-opacity"
+        aria-label="Next image"
+        type="button"
+      >
+        <!-- right icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1.25rem"
+          height="1.25rem"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M7.5 5L12.5 10L7.5 15"
+            stroke="#212121"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

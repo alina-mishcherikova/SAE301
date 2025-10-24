@@ -1,4 +1,7 @@
 <div>
-<h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 2rem; color: #111; text-align: center;">Allez, click click ! On achète !</h1>
-   <slot name="detail"></slot>
+  <slot name="breadcrumb"></slot>
+  <section class="flex flex-col md:grid md:grid-cols-2 md:">
+    <slot name="gallery"></slot>
+    <slot name="detail"></slot>
+  </section>
 </div>

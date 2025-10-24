@@ -1,0 +1,65 @@
+<section class="w-full max-w-[90rem] mx-auto px-4 md:px-10 py-8 md:py-12">
+  <!-- Header -->
+  <div class="flex flex-col gap-4 mb-8">
+    <h1
+      class="font-bebas text-fg text-mh2 md:text-dh2 uppercase leading-[95%] tracking-tighter"
+    >
+      Mon panier
+    </h1>
+    <p class="font-rethink text-fg text-base">
+      <span data-cart-count>0</span> article(s) dans votre panier
+    </p>
+  </div>
+
+  <!-- Cart Content -->
+  <div class="flex flex-col lg:flex-row gap-8">
+    <!-- Cart Items List -->
+    <div class="flex-1">
+      <div data-cart-items class="flex flex-col">
+        <!-- Cart items will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <div
+    data-summary
+    class="lg:hidden mt-8 border border-gray-20 border-solid rounded-lg p-6"
+    style="display: none"
+  >
+    <h2
+      class="font-bebas text-fg text-size22 uppercase leading-tight mb-6 tracking-tight"
+    >
+      Récapitulatif
+    </h2>
+
+    <div class="flex flex-col gap-4 mb-6">
+      <div class="flex justify-between font-rethink text-fg text-base">
+        <span>Sous-total</span>
+        <span data-subtotal>€0.00</span>
+      </div>
+      <div class="flex justify-between font-rethink text-fg text-base">
+        <span>Livraison</span>
+        <span>Gratuite</span>
+      </div>
+      <div class="w-full h-[1px] bg-gray-20"></div>
+      <div class="flex justify-between font-rethink text-fg text-lg font-bold">
+        <span>Total</span>
+        <span data-total>€0.00</span>
+      </div>
+    </div>
+
+    <button
+      data-checkout
+      class="w-full bg-fg text-bg font-rethink font-semibold text-sm uppercase px-6 py-4 rounded-lg hover:opacity-90 transition-opacity"
+    >
+      Commander
+    </button>
+
+    <button
+      data-clear-cart
+      class="w-full mt-3 border border-gray-20 border-solid text-fg font-rethink font-normal text-sm uppercase px-6 py-3 rounded-lg hover:bg-accent-hover transition-colors"
+    >
+      Vider le panier
+    </button>
+  </div>
+</section>

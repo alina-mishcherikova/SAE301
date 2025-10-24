@@ -1,6 +1,25 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_set_cookie_params([
+    'lifetime' => 86400, // 24h au lieu de 0 (session)
+    'path' => '/',
+    'domain' => '', // Vide = domaine actuel uniquement
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'None'
+]);
+
+// Démarrer la session ICI pour que les paramètres soient appliqués
+session_name('SAE301_SESSION');
+session_start();
+
 require_once "src/Controller/ProductController.php";
+require_once "src/Controller/CategoryController.php";
 require_once "src/Class/HttpRequest.php";
+require_once "src/Controller/UserController.php";
+require_once "src/Controller/AuthController.php";
 
 
 /** IMPORTANT
@@ -25,7 +44,10 @@ require_once "src/Class/HttpRequest.php";
  *  On ajoutera des "routes" à $router si l'on a d'autres ressource à traiter.
  */
 $router = [
-    "products" => new ProductController()
+    "products" => new ProductController(),
+    "categories" => new CategoryController(),
+    "users" => new UserController(),
+    "auth" => new AuthController(),
 ];
 
 // objet HttpRequest qui contient toutes les infos utiles sur la requêtes (voir class/HttpRequest.php)

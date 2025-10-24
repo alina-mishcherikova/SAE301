@@ -1,14 +1,66 @@
-<div class="mx-auto max-w-4xl p-6">
-  <h1 class="mb-6 text-4xl font-bold text-gray-900">Accueil</h1>
-  
-<img 
-    src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&h=400&fit=crop" 
-    alt="Image d'accueil - Shopping" 
-    class="mb-6 rounded-lg shadow-lg w-full h-64 object-cover"
-    style="filter: grayscale(1);"
-  />
+<section class="flex flex-col gap-10">
+  <section class="relative">
+    <img
+      src="../../../public/images/hero_section.jpg"
+      alt="Home hero image"
+      class="w-full h-[400px] object-cover rounded-lg mt-4 z-0"
+    />
 
-  <p>
-    Bienvenue sur notre plateforme de Click & Collect ! Découvrez une sélection variée de produits et profitez d'une expérience d'achat simple et rapide.
-  </p>
-</div>
+    <div
+      class="absolute top-0 left-0 w-full h-[400px] bg-black/50 rounded-lg mt-4 z-10"
+    ></div>
+
+    <h1
+      class="font-bebas text-bg text-mh2 md:text-dh2 lg:text-dh2 uppercase leading-[95%] tracking-tighter absolute bottom-10 left-1/3 text-left -translate-x-1/2 -translate-y-1/2 px-2 py-1 rounded-md z-20"
+    >
+      {{greeting}}
+    </h1>
+  </section>
+
+  <div
+    data-vinyles
+    class="flex flex-col items-start self-stretch gap-4 md:gap-8 lg:gap-8"
+  >
+    <h2
+      class="text-fg font-bebas tracking-tighter text-mh3 md:text-dh3 lg:text-dh3 uppercase leading-[95%]"
+    >
+      {{categoryName}}
+    </h2>
+    <section class="bg-bg flex flex-col xl:flex-row flex-1 gap-8">
+      <!-- <slot name="categories"></slot> -->
+      <div data-products-host>
+        <slot name="products"></slot>
+      </div>
+    </section>
+  </div>
+  <div
+    data-merch
+    class="flex flex-col items-start self-stretch gap-4 md:gap-8 lg:gap-8"
+  >
+    <h2
+      class="text-fg font-bebas tracking-tighter text-mh3 md:text-dh3 lg:text-dh3 uppercase leading-[95%]"
+    >
+      {{categoryName}}
+    </h2>
+    <section data-merch class="bg-bg flex flex-col xl:flex-row flex-1 gap-8">
+      <div data-products-host>
+        <slot name="products"></slot>
+      </div>
+    </section>
+  </div>
+  <div
+    data-accessories
+    class="flex flex-col items-start self-stretch gap-4 md:gap-8 lg:gap-8"
+  >
+    <h2
+      class="text-fg font-bebas tracking-tighter text-mh3 md:text-dh3 lg:text-dh3 uppercase leading-[95%]"
+    >
+      {{categoryName}}
+    </h2>
+    <section class="bg-bg flex flex-col xl:flex-row flex-1 gap-8">
+      <div data-products-host>
+        <slot name="products"></slot>
+      </div>
+    </section>
+  </div>
+</section>

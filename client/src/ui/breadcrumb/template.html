@@ -1,0 +1,17 @@
+<!-- Breadcrumb -->
+<nav
+  class="flex gap-[0.5rem] items-center text-[0.875rem] font-rethink text-gray-50 pb-10"
+>
+  <a href="/products" data-link class="hover:text-fg transition-colors"
+    >Produits</a
+  >
+  <span>›</span>
+  <a
+    href="/category/{{id}}/{{categoryName}}"
+    data-link
+    class="hover:text-fg transition-colors"
+    >{{categoryName}}</a
+  >
+  <span>›</span>
+  <span class="text-fg">{{name}}</span>
+</nav>

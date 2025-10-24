@@ -1,49 +1,59 @@
 <?php
 require_once "src/Controller/EntityController.php";
-require_once "src/Repository/ProductRepository.php" ;
-
+require_once "src/Repository/ProductRepository.php";
 
 // This class inherits the jsonResponse method  and the $cnx propertye from the parent class Controller
 // Only the process????Request methods need to be (re)defined.
 
-class ProductController extends EntityController {
+class ProductController extends EntityController
+{
 
     private ProductRepository $products;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->products = new ProductRepository();
     }
 
-   
-    protected function processGetRequest(HttpRequest $request) {
-        $id = $request->getId("id");
-        if ($id){
-            // URI is .../products/{id}
-            $p = $this->products->find($id);
-            return $p==null ? false :  $p;
-        }
-        else{
-            // URI is .../products
-            $cat = $request->getParam("category"); // is there a category parameter in the request ?
-            if ( $cat == false) // no request category, return all products
+    protected function processGetRequest(HttpRequest $request)
+    {
+        $id  = $request->getId();
+        $cat = $request->getParam
+            ("category");
+        if ($id) {
+            return $this->products->find($id);
+        } else {
+            $cat = $request->getParam("category");
+            if ($cat == false)                    
+            {
                 return $this->products->findAll();
-            else // return only products of category $cat
+            } else // return only products of category $cat
+            {
                 return $this->products->findAllByCategory($cat);
+            }
+
         }
     }
 
-    protected function processPostRequest(HttpRequest $request) {
+    protected function processPostRequest(HttpRequest $request)
+    {
         $json = $request->getJson();
-        $obj = json_decode($json);
-        $p = new Product(0); // 0 is a symbolic and temporary value since the product does not have a real id yet.
+        $obj= json_decode($json);
+        $p= new Product(0);
         $p->setName($obj->name);
         $p->setIdcategory($obj->category);
         $p->setPrice($obj->price);
-         $p->setImage($obj->image);
-        $ok = $this->products->save($p); 
+        $p->setImage($obj->image);
+        $p->setDescription($obj->description);
+        $p->setArtist($obj->artist);
+        $p->setLabel($obj->label);
+        $p->setCountry($obj->country);
+        $p->setYear($obj->year);
+        $p->setGenre($obj->genre);
+        $p->setEtat($obj->etat);
+        $p->setSpecial($obj->special);
+        $ok = $this->products->save($p);
         return $ok ? $p : false;
     }
-   
-}
 
-?>
+}

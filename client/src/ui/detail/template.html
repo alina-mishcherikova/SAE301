@@ -1,23 +1,79 @@
-<article class="mx-auto max-w-2xl rounded-lg bg-white p-8 shadow-lg">
-  <!-- Placeholder pour l'image du produit -->
-  <div class="mb-6 flex h-64 items-center justify-center rounded-lg bg-gray-200">
-    <svg class="h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-    </svg>
+<article
+  class="flex flex-col lg:flex-row lg:gap-[2.5rem] w-full max-w-[90rem] mx-auto p-[1rem] gap-4"
+>
+  <div class="flex-1 flex flex-col gap-[1rem] lg:gap-[1.5rem]">
+    <!-- Product Title -->
+    <h1
+      class="font-bebas text-fg text-mh2 lg:text-dh2 uppercase leading-[95%] tracking-tighter"
+    >
+      {{name}}
+    </h1>
+
+    <!-- Description -->
+    <div class="flex flex-col gap-[0.75rem]">
+      <p class="font-rethink text-gray-50 text-[1rem] leading-relaxed">
+        {{description}}
+      </p>
+    </div>
+    <section id="infosupp" class="hidden flex-col">
+      <h3 class="font-bebas font-bold text-size22">Information principales</h3>
+      <ul class="w-full">
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4">Interprète / Groupe</span>
+            {{artist}}
+          </p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p><span class="font-bold w-[50%] pr-4">Label</span> {{label}}</p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4">Pays d'origine</span>
+            {{country}}
+          </p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4"
+              >Année de sortie / réédition</span
+            >
+            {{year}}
+          </p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p><span class="font-bold w-[50%] pr-4">Genre(s)</span> {{genre}}</p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4">État de l'édition</span>
+            {{etat}}
+          </p>
+        </li>
+        <li class="flex font-rethink text-size16">
+          <p>
+            <span class="font-bold w-[50%] pr-4"
+              >Caractéristiques spéciales</span
+            >
+            {{special}}
+          </p>
+        </li>
+      </ul>
+    </section>
+    <!-- Price & Add to Cart -->
+    <div class="flex flex-col gap-[1rem] mt-auto">
+      <div class="flex items-baseline gap-[0.5rem]">
+        <span class="font-bebas text-fg text-[3rem] lg:text-[3.5rem]">
+          €{{price}}
+        </span>
+      </div>
+
+      <button
+        data-buy="{{id}}"
+        class="w-full px-[1.5rem] py-[1rem] bg-fg text-bg font-rethink font-semibold text-[0.875rem] lg:text-[1rem] rounded-lg hover:opacity-90 transition-opacity uppercase tracking-wide"
+      >
+        Ajouter au panier
+      </button>
+    </div>
   </div>
-  
-  <div class="mb-2 text-sm font-medium text-gray-500">ID: {{id}}</div>
-  <h1 class="mb-4 text-3xl font-bold text-gray-900">{{name}}</h1>
-  <p class="mb-6 text-lg text-gray-700">{{description}}</p>
-  
-  <div class="mb-6">
-    <span class="text-2xl font-bold text-green-600">{{price}} €</span>
-  </div>
-  
-  <button 
-    data-buy="{{id}}" 
-    class="w-full rounded-lg bg-green-600 px-6 py-3 text-lg font-semibold text-white transition hover:bg-green-700"
-  >
-    Ajouter au panier
-  </button>
 </article>
