@@ -187,6 +187,7 @@ V.attachEvents = function (pageFragment, hasData) {
 
   if (root && hasData) {
     root.addEventListener("click", C.handler_clickOnProfileInfo);
+    root.addEventListener("click", C.handler_clickOnDisconnect);
   }
   return pageFragment;
 };
