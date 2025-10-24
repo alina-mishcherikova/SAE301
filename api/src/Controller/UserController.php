@@ -115,16 +115,26 @@ class UserController extends EntityController {
      * @return mixed Le User modifié, ou false en cas d'erreur
      */
     protected function processPatchRequest(HttpRequest $request) {
-        // TODO: Implémenter la modification
-        // Exemple :
-        /*
+        // Vérifier si l'utilisateur est authentifié
+        if (!$this->isAuthenticated()) {
+            http_response_code(401);
+            return false;
+        }
+
         $id = $request->getId();
         
         if (!$id) {
             return false;
         }
+
+        // Vérifier que l'utilisateur ne peut modifier que son propre profil
+        $currentUserId = $this->getCurrentUserId();
+        if ($currentUserId != $id) {
+            http_response_code(403); // Forbidden
+            return false;
+        }
         
-        $entity = $this->repository->find($id);
+        $entity = $this->users->find($id);
         if (!$entity) {
             return false;
         }
@@ -133,16 +143,26 @@ class UserController extends EntityController {
         $obj = json_decode($json);
         
         // Mise à jour des propriétés (uniquement celles fournies)
-        if (isset($obj->name)) {
-            $entity->setName($obj->name);
+        if (isset($obj->firstName)) {
+            $entity->setFirstName($obj->firstName);
         }
-        // TODO: Mettre à jour les autres propriétés
         
-        $ok = $this->repository->update($entity);
+        if (isset($obj->secondName)) {
+            $entity->setSecondName($obj->secondName);
+        }
+        
+        if (isset($obj->email)) {
+            $entity->setEmail($obj->email);
+        }
+        
+        // Si un nouveau mot de passe est fourni, le hasher
+        if (isset($obj->password) && !empty($obj->password)) {
+            $hashedPassword = password_hash($obj->password, PASSWORD_DEFAULT);
+            $entity->setPassword($hashedPassword);
+        }
+        
+        $ok = $this->users->update($entity);
         return $ok ? $entity : false;
-        */
-        
-        return false; // À remplacer par votre implémentation
     }
 
     /**

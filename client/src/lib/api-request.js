@@ -120,7 +120,29 @@ let deleteRequest = async function (uri) {
  *  La fonction retourne true ou false selon le succès de l'opération
  */
 let patchRequest = async function (uri, data) {
-  // Pas implémenté. TODO if needed.
+  let options = {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    var response = await fetch(API_URL + uri, options);
+  } catch (e) {
+    console.error("Echec de la requête : " + e);
+    return false;
+  }
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Erreur de requête : " + response.status);
+    console.error("Réponse du serveur:", errorText);
+    return false;
+  }
+  let $obj = await response.json();
+  return $obj;
 };
 
-export { getRequest, postRequest, deleteRequest };
+export { getRequest, postRequest, deleteRequest, patchRequest };

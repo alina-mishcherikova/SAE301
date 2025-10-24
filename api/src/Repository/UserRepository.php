@@ -33,6 +33,7 @@ class UserRepository extends EntityRepository {
         $u->setEmail($answer->email);
         $u->setPassword($answer->password);
         $u->setFirstName($answer->firstName);
+        $u->setSecondName($answer->secondName);
 
         return $u;
 
@@ -137,22 +138,22 @@ class UserRepository extends EntityRepository {
      * @return bool true si succès, false sinon
      */
     public function update($entity): bool {
-        // TODO: Implémenter la requête UPDATE
-        // Exemple :
-        /*
         $requete = $this->cnx->prepare(
-            "UPDATE User SET name=:name, description=:description WHERE id=:id"
+            "UPDATE Users SET email=:email, password=:password, firstName=:firstName, secondName=:secondName WHERE id_user=:id"
         );
         $id = $entity->getId();
-        $name = $entity->getName();
-        $description = $entity->getDescription();
-        $requete->bindParam(':id', $id);
-        $requete->bindParam(':name', $name);
-        $requete->bindParam(':description', $description);
-        return $requete->execute();
-        */
+        $email = $entity->getEmail();
+        $password = $entity->getPassword();
+        $firstName = $entity->getFirstName();
+        $secondName = $entity->getSecondName();
         
-        return false; // À remplacer par votre implémentation
+        $requete->bindParam(':id', $id);
+        $requete->bindParam(':email', $email);
+        $requete->bindParam(':password', $password);
+        $requete->bindParam(':firstName', $firstName);
+        $requete->bindParam(':secondName', $secondName);
+        
+        return $requete->execute();
     }
 
     // TODO: Ajouter vos méthodes de recherche personnalisées ici

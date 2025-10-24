@@ -1,14 +1,53 @@
-<div class="mx-auto max-w-4xl p-6">
-  <h1 class="mb-6 text-4xl font-bold text-gray-900">Accueil</h1>
-  
-<img 
-    src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&h=400&fit=crop" 
-    alt="Image d'accueil - Shopping" 
-    class="mb-6 rounded-lg shadow-lg w-full h-64 object-cover"
-    style="filter: grayscale(1);"
-  />
-
-  <p>
-    Bienvenue sur notre plateforme de Click & Collect ! Découvrez une sélection variée de produits et profitez d'une expérience d'achat simple et rapide.
-  </p>
-</div>
+<section class="flex flex-col gap-10">
+  <h1
+    class="font-bebas text-fg text-mh2 md:text-dh2 lg:text-dh2 uppercase leading-[95%] tracking-tighter"
+  >
+    Bonjour {{firstName}}
+  </h1>
+  <div
+    data-vinyles
+    class="flex flex-col items-start self-stretch gap-4 md:gap-8 lg:gap-8"
+  >
+    <h2
+      class="text-fg font-bebas tracking-tighter text-mh3 md:text-dh3 lg:text-dh3 uppercase leading-[95%]"
+    >
+      {{categoryName}}
+    </h2>
+    <section class="bg-bg flex flex-col xl:flex-row flex-1 gap-8">
+      <!-- <slot name="categories"></slot> -->
+      <div data-products-host>
+        <slot name="products"></slot>
+      </div>
+    </section>
+  </div>
+  <div
+    data-merch
+    class="flex flex-col items-start self-stretch gap-4 md:gap-8 lg:gap-8"
+  >
+    <h2
+      class="text-fg font-bebas tracking-tighter text-mh3 md:text-dh3 lg:text-dh3 uppercase leading-[95%]"
+    >
+      {{categoryName}}
+    </h2>
+    <section data-merch class="bg-bg flex flex-col xl:flex-row flex-1 gap-8">
+      <div data-products-host>
+        <slot name="products"></slot>
+      </div>
+    </section>
+  </div>
+  <div
+    data-accessories
+    class="flex flex-col items-start self-stretch gap-4 md:gap-8 lg:gap-8"
+  >
+    <h2
+      class="text-fg font-bebas tracking-tighter text-mh3 md:text-dh3 lg:text-dh3 uppercase leading-[95%]"
+    >
+      {{categoryName}}
+    </h2>
+    <section class="bg-bg flex flex-col xl:flex-row flex-1 gap-8">
+      <div data-products-host>
+        <slot name="products"></slot>
+      </div>
+    </section>
+  </div>
+</section>

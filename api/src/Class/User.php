@@ -26,6 +26,7 @@ class User extends Entity {
      */
     public function jsonSerialize(): mixed {
         return [
+            "id" => $this->id_user,
             "id_user" => $this->id_user,
             "email" => $this->email,
             "firstName" => $this->firstName,

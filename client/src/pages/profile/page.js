@@ -1,5 +1,6 @@
 import { htmlToFragment } from "../../lib/utils.js";
 import { ProfileView } from "../../ui/profile/index.js";
+import { ProfileInfoView } from "../../ui/profileInfo/index.js";
 import { UserData } from "../../data/user.js";
 import template from "./template.html?raw";
 
@@ -29,36 +30,119 @@ C.handler_clickOnDisconnect = async function (ev) {
   }
 };
 
+C.handler_clickOnProfileInfo = function (ev) {
+  const profilInfoBtn = ev.target.closest("[data-profil-info]");
+  if (!profilInfoBtn) return;
+
+  console.log("Profile Info button clicked");
+
+  // Find the profile-info slot in the page
+  const mainContainer = ev.currentTarget;
+  if (!mainContainer) {
+    console.error("currentTarget is null");
+    return;
+  }
+
+  const profileInfoSlot = mainContainer.querySelector(
+    'slot[name="profile-info"]'
+  );
+
+  if (!profileInfoSlot) {
+    console.error("profile-info slot not found");
+    return;
+  }
+
+  // Check if form is already displayed
+  const existingForm = mainContainer.querySelector("[data-profile-form]");
+  if (existingForm) {
+    existingForm.remove();
+    return;
+  }
+
+  // Render ProfileInfo form
+  const profileInfoDOM = ProfileInfoView.dom(M.userData);
+
+  // Add a data attribute to track the form
+  const formContainer =
+    profileInfoDOM.querySelector("section") || profileInfoDOM;
+  if (formContainer) {
+    formContainer.setAttribute("data-profile-form", "");
+  }
+
+  // Attach submit handler to the form
+  const form = profileInfoDOM.querySelector("#dataForm");
+  if (form) {
+    form.addEventListener("submit", C.handler_submitProfileForm);
+  }
+
+  // Replace slot with the form
+  profileInfoSlot.replaceWith(profileInfoDOM);
+};
+
+C.handler_submitProfileForm = async function (ev) {
+  ev.preventDefault();
+
+  const form = ev.target;
+  const formData = new FormData(form);
+
+  const data = {
+    firstName: formData.get("firstName"),
+    secondName: formData.get("secondName"),
+    email: formData.get("email"),
+  };
+
+  // Only include password if it's not empty
+  const password = formData.get("password");
+  if (password && password.trim() !== "") {
+    data.password = password;
+  }
+
+  console.log("Updating user profile with data:", data);
+
+  try {
+    const userId = M.userData.id || M.userData.id_user;
+    console.log("User ID:", userId);
+
+    if (!userId) {
+      console.error("No user ID found");
+      alert("Erreur: ID utilisateur introuvable");
+      return;
+    }
+
+    const result = await UserData.update(userId, data);
+
+    if (result) {
+      console.log("Profile updated successfully:", result);
+      alert("Profil mis à jour avec succès!");
+
+      M.userData = { ...M.userData, ...result };
+
+      if (C.router) {
+        C.router.navigate("/profile");
+      }
+    } else {
+      console.error("Failed to update profile");
+      alert("Erreur lors de la mise à jour du profil");
+    }
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    alert("Erreur lors de la mise à jour du profil");
+  }
+};
+
 C.init = async function (params, router) {
-  // C.router = router;
-  // try {
-  //   // GET /auth/login -> { authenticated: boolean, user?: {...} }
-  //   const status = await UserData.status();
-  //   console.log("[profile] status =", status);
-  //   if (status && status.authenticated === true && status.user) {
-  //     if (C.router) C.router.setAuth(true);
-  //     return V.init(status.user);
-  //   } else {
-  //     if (C.router) {
-  //       C.router.setAuth(false);
-  //       C.router.navigate("/login");
-  //     }
-  //     return V.init(null);
-  //   }
-  // } catch (e) {
-  //   console.error("[profile] init failed", e);
-  //   if (C.router) {
-  //     C.router.setAuth(false);
-  //     C.router.navigate("/login");
-  //   }
-  //   return V.init(null);
-  // }
+  C.router = router;
+  const data = await UserData.status();
+  console.log("[C.init] UserData.status result:", data);
 };
 
 let V = {};
 
 V.init = function (data) {
   console.log("[V.init] Called with data:", data);
+
+  M.userData = data;
+
   const fragment = V.createPageFragment(data);
   console.log("[V.init] createPageFragment returned:", fragment);
   V.attachEvents(fragment, !!data);
@@ -78,19 +162,20 @@ V.createPageFragment = function (data) {
     return pageFragment;
   }
 
+  const profileHeaderDOM = ProfileView.dom(data);
   const profileDOM = ProfileView.dom(data);
-  console.log("[V.createPageFragment] ProfileView.dom returned:", profileDOM);
 
-  const slot = pageFragment.querySelector('slot[name="profile"]');
-  console.log("[V.createPageFragment] Found slot:", slot);
+  const navigationSlot = pageFragment.querySelector(
+    'slot[name="profile-navigation"]'
+  );
 
-  if (slot) {
-    slot.replaceWith(profileDOM);
-    console.log("[V.createPageFragment] Slot replaced with profileDOM");
-  } else {
-    pageFragment.appendChild(profileDOM);
-    console.log("[V.createPageFragment] No slot found, appended profileDOM");
+  if (navigationSlot) {
+    navigationSlot.replaceWith(profileDOM);
+    console.log(
+      "[V.createPageFragment] Navigation slot replaced with profileDOM"
+    );
   }
+
   return pageFragment;
 };
 
@@ -101,7 +186,7 @@ V.attachEvents = function (pageFragment, hasData) {
       : pageFragment;
 
   if (root && hasData) {
-    root.addEventListener("click", C.handler_clickOnDisconnect);
+    root.addEventListener("click", C.handler_clickOnProfileInfo);
   }
   return pageFragment;
 };
@@ -109,10 +194,6 @@ V.attachEvents = function (pageFragment, hasData) {
 export async function ProfilePage() {
   console.log("[ProfilePage] START");
   const result = await UserData.status();
-  console.log("[ProfilePage] UserData.status result:", result);
-  console.log("[ProfilePage] result type:", typeof result);
-  console.log("[ProfilePage] result.authenticated:", result?.authenticated);
-  console.log("[ProfilePage] result.user:", result?.user);
 
   // debugger;
 
@@ -120,11 +201,6 @@ export async function ProfilePage() {
     console.warn(
       "[ProfilePage] REDIRECT to /login because:",
       !result ? "no result" : "not authenticated"
-    );
-    // Temporairement remplacé par alert pour voir les logs
-    alert(
-      "Not authenticated! Check console (F12) - result: " +
-        JSON.stringify(result)
     );
     // window.location.href = "/login";
     return document.createDocumentFragment();
