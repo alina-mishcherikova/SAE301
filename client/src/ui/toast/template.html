@@ -1,0 +1,52 @@
+<div
+  data-toast
+  class="fixed bottom-6 right-6 bg-fg text-bg px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 z-50 transition-all duration-300 transform translate-y-0 opacity-100"
+  style="transform: translateY(100px); opacity: 0"
+>
+  <!-- Success Icon -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+    <path
+      d="M8 12L11 15L16 9"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+  <!-- Message -->
+  <div class="flex flex-col gap-1">
+    <p class="font-rethink font-semibold text-sm">Produit ajouté au panier</p>
+    <p class="font-rethink text-xs opacity-90">{{name}}</p>
+  </div>
+
+  <!-- Close button -->
+  <button
+    data-toast-close
+    class="ml-4 hover:opacity-70 transition-opacity"
+    aria-label="Fermer"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+    >
+      <path
+        d="M15 5L5 15M5 5L15 15"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+</div>

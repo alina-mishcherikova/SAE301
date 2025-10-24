@@ -6,10 +6,12 @@ import { ProductDetailPage } from "./pages/productDetail/page.js";
 import { ConnectionPage } from "./pages/createAccount/page.js";
 import { LoginPage } from "./pages/login/page.js";
 import { ProfilePage } from "./pages/profile/page.js";
+import { CartPage } from "./pages/cart/page.js";
 
 import { RootLayout } from "./layouts/root/layout.js";
 import { The404Page } from "./pages/404/page.js";
 import { UserData } from "./data/user.js";
+import { CartData } from "./data/cart.js";
 
 const router = new Router("app", { loginPath: "/login" });
 
@@ -35,9 +37,14 @@ router.addRoute("/products", ProductsPage);
 router.addRoute("/category/:id/:name", ProductsPage);
 router.addRoute("/products/:id/:slug", ProductDetailPage);
 
+router.addRoute("/pannier", CartPage);
+
 router.addRoute("*", The404Page);
 
 async function initApp() {
+  // Initialize cart from localStorage
+  CartData.load();
+
   await updateAuthStatus();
   router.start();
 }

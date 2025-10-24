@@ -46,27 +46,35 @@
       ></a>
 
       <!-- Cart button -->
-      <!-- <button
-        class="flex items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
-      >
-        <svg
-          class="w-5 h-5"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      <a href="/pannier" class="relative">
+        <button
+          class="flex items-center justify-center px-3 py-[14px] rounded-lg hover:bg-accent-hover transition-colors"
         >
-          <path
-            d="M3.33334 3.33334H5.00001L7.08334 13.3333H16.6667L18.3333 6.66667H6.66667"
-            stroke="#212121"
-            stroke-width="1.5"
+          <svg
+            class="w-5 h-5"
+            viewBox="0 0 20 20"
             fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <circle cx="8.33334" cy="16.6667" r="1.66667" fill="#212121" />
-          <circle cx="15" cy="16.6667" r="1.66667" fill="#212121" />
-        </svg>
-      </button> -->
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.33334 3.33334H5.00001L7.08334 13.3333H16.6667L18.3333 6.66667H6.66667"
+              stroke="#212121"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="8.33334" cy="16.6667" r="1.66667" fill="#212121" />
+            <circle cx="15" cy="16.6667" r="1.66667" fill="#212121" />
+          </svg>
+          <!-- Cart counter badge -->
+          <span
+            data-cart-count
+            class="absolute -top-1 -right-1 bg-fg text-bg text-xs font-rethink font-semibold rounded-full min-w-[1.25rem] h-5 items-center justify-center px-1"
+            style="display: none"
+          ></span>
+        </button>
+      </a>
       <!-- Burger button-->
       <button
         id="#burgerMenu"

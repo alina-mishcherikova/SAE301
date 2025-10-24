@@ -1,5 +1,7 @@
 import { genericRenderer, htmlToFragment } from "../../lib/utils.js";
 import template from "./template.html?raw";
+import { CartData } from "../../data/cart.js";
+import { ToastView } from "../toast/index.js";
 
 let DetailView = {
   html: function (data) {
@@ -21,6 +23,29 @@ let DetailView = {
       if (infosupp) {
         infosupp.remove();
       }
+    }
+
+    // Add "Add to cart" functionality
+    const buyButton = fragment.querySelector("[data-buy]");
+    if (buyButton && data) {
+      buyButton.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        CartData.add(data, 1);
+
+        // Show toast notification
+        ToastView.showAddedToCart(data.name || data.title || "Produit");
+
+        // Visual feedback
+        const originalText = buyButton.textContent;
+        buyButton.textContent = "Ajouté au panier ✓";
+        buyButton.style.opacity = "0.7";
+
+        setTimeout(() => {
+          buyButton.textContent = originalText;
+          buyButton.style.opacity = "1";
+        }, 1500);
+      });
     }
 
     return fragment;

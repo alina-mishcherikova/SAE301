@@ -1,5 +1,6 @@
 import { genericRenderer, htmlToFragment } from "../../lib/utils.js";
 import template from "./template.html?raw";
+import { CartData } from "../../data/cart.js";
 
 let HeaderView = {
   html: function (data) {
@@ -23,6 +24,27 @@ let HeaderView = {
         navigation.classList.toggle("w-full");
       });
     }
+
+    // Cart counter functionality
+    const cartCountEl = fragment.querySelector("[data-cart-count]");
+
+    function updateCartCount() {
+      if (!cartCountEl) return;
+      const count = CartData.getCount();
+
+      if (count > 0) {
+        cartCountEl.textContent = String(count);
+        cartCountEl.style.display = "flex";
+      } else {
+        cartCountEl.style.display = "none";
+      }
+    }
+
+    // Initial update
+    updateCartCount();
+
+    // Listen to cart changes
+    window.addEventListener("cart:changed", updateCartCount);
 
     return fragment;
   },
